@@ -1,0 +1,76 @@
+﻿<Window x:Class="DoAn1_LapTrinhWindows.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DoAn1_LapTrinhWindows"
+        mc:Ignorable="d"
+        Title="NameChanger" Height="500" Width="810">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="4*"/>
+            <ColumnDefinition Width="7*"/>
+        </Grid.ColumnDefinitions>
+        <ListView Margin="10,58,9,10" Width="485" Name="lv" Grid.Column="1">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Name" Width="200" DisplayMemberBinding="{Binding Name}" />
+                    <GridViewColumn Header="New name" Width="200" DisplayMemberBinding="{Binding NewName}" />
+                    <GridViewColumn Header="Status" Width="80" DisplayMemberBinding="{Binding Status}" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="20,20,0,0" TextWrapping="Wrap" Text="C:\\path..." VerticalAlignment="Top" Width="399" IsReadOnly="True" IsEnabled="False" Grid.Column="1"/>
+        <Button Margin="124,398,10,22" Cursor="Hand" >
+            <StackPanel Orientation="Horizontal">
+                <Image Source="icons/tichxanh.png" Height="36" RenderOptions.BitmapScalingMode="HighQuality" Margin="-5 0 5 0"/>
+                <TextBlock Text="START BATCH" VerticalAlignment="Center" FontWeight="ExtraBold" />
+            </StackPanel>
+        </Button>
+        <Button Margin="10,398,169,22" Cursor="Hand" >
+            <StackPanel Orientation="Horizontal">
+                <Image Source="icons/preview.png" Height="36" RenderOptions.BitmapScalingMode="HighQuality" Margin="-5 0 5 0"/>
+                <TextBlock Text="PREVIEW" VerticalAlignment="Center" FontWeight="SemiBold" />
+            </StackPanel>
+        </Button>
+        <Button Cursor="Hand" Grid.Column="1" Margin="424,15,50,422">
+            <Button.Template>
+                <ControlTemplate>
+                    <Image Source="icons/open.png"  RenderOptions.BitmapScalingMode="HighQuality" />
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <Button Cursor="Hand" Grid.Column="1" Margin="465,15,12,422">
+            <Button.Template>
+                <ControlTemplate>
+                    <Image Source="icons/refresh2.png"  RenderOptions.BitmapScalingMode="HighQuality" />
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+
+        <GroupBox HorizontalAlignment="Left" Height="60" Margin="10,10,0,0" VerticalAlignment="Top" Width="272" FontSize="13" FontWeight="Bold">
+            <GroupBox.Header>
+                Presets
+            </GroupBox.Header>
+            <Grid>
+                <Button Cursor="Hand" Margin="10,0,217,0">
+                    <Button.Template>
+                        <ControlTemplate>
+                            <Image Source="icons/save.png" Height="32"  Width="32" RenderOptions.BitmapScalingMode="HighQuality" />
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+                <Button Cursor="Hand" Margin="48,0,181,0">
+                    <Button.Template>
+                        <ControlTemplate>
+                            <Image Source="icons/delete.png" Height="32" Width="32" RenderOptions.BitmapScalingMode="HighQuality" />
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+                <ComboBox HorizontalAlignment="Left" Margin="84,6,0,0" VerticalAlignment="Top" Width="160" Height="24" />
+            </Grid>
+        </GroupBox>
+
+
+    </Grid>
+</Window>
