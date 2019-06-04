@@ -20,7 +20,7 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <TextBox HorizontalAlignment="Left" Height="23" Margin="20,20,0,0" TextWrapping="Wrap" Text="C:\\path..." VerticalAlignment="Top" Width="399" IsReadOnly="True" IsEnabled="False" Grid.Column="1"/>
+        <TextBox Name="txtGetFile" HorizontalAlignment="Left" Height="23" Margin="20,20,0,0" TextWrapping="Wrap" Text="C:\\path..." VerticalAlignment="Top" Width="399" IsReadOnly="True" IsEnabled="False" Grid.Column="1"/>
         <Button Margin="124,398,10,22" Cursor="Hand" >
             <StackPanel Orientation="Horizontal">
                 <Image Source="icons/tichxanh.png" Height="36" RenderOptions.BitmapScalingMode="HighQuality" Margin="-5 0 5 0"/>
@@ -33,7 +33,7 @@
                 <TextBlock Text="PREVIEW" VerticalAlignment="Center" FontWeight="SemiBold" />
             </StackPanel>
         </Button>
-        <Button Cursor="Hand" Grid.Column="1" Margin="424,15,50,422">
+        <Button Cursor="Hand" Grid.Column="1" Margin="424,15,50,422" Click="Get_File">
             <Button.Template>
                 <ControlTemplate>
                     <Image Source="icons/open.png"  RenderOptions.BitmapScalingMode="HighQuality" />

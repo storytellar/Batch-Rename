@@ -13,6 +13,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+using Microsoft.Win32;
+
 namespace DoAn1_LapTrinhWindows
 {
     /// <summary>
@@ -25,6 +27,27 @@ namespace DoAn1_LapTrinhWindows
             InitializeComponent();
         }
 
-    
+
+        private void Get_File(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog filedDialog = new OpenFileDialog();
+            filedDialog.Multiselect = true;
+            //filedDialog.Filter
+            Nullable<bool> dialogOK = filedDialog.ShowDialog();
+            if (dialogOK == true)
+            {
+                string sFileNames = "";
+
+                foreach (string sFileName in filedDialog.FileNames)
+                {
+                    sFileNames += ";" + sFileName;
+                }
+
+                sFileNames = sFileNames.Substring(1);
+
+                txtGetFile.Text = sFileNames;
+            }
+        }
+
     }
 }
