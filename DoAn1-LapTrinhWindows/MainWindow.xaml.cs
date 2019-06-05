@@ -17,6 +17,7 @@ using System.IO;
 using Microsoft.Win32;
 using Path = System.IO.Path;
 using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace DoAn1_LapTrinhWindows
 {
@@ -28,11 +29,9 @@ namespace DoAn1_LapTrinhWindows
         public MainWindow()
         {
             InitializeComponent();
-
-            
         }
 
-        public class FileInfo
+        public class FileInfo : INotifyPropertyChanged
         {
             public string name;
             public string Name
@@ -40,9 +39,19 @@ namespace DoAn1_LapTrinhWindows
                 get => name; set
                 {
                     name = value;
+                    RaiseEvent();
                 }
             }
+
+            public event PropertyChangedEventHandler PropertyChanged;
+
+            void RaiseEvent([CallerMemberName] string propertyName = "")
+            {
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            }
         }
+
+        BindingList<FileInfo> files = new BindingList<FileInfo>();
 
         private void Get_File(object sender, RoutedEventArgs e)
         {
@@ -52,19 +61,38 @@ namespace DoAn1_LapTrinhWindows
             Nullable<bool> dialogOK = fileDialog.ShowDialog();
             if (dialogOK == true)
             {
-                BindingList<FileInfo> files = new BindingList<FileInfo>();
-
                 foreach (string sFileName in fileDialog.FileNames)
                 {
                     files.Add(new FileInfo { Name = Path.GetFileName(sFileName) });
+
+                    for(int i = 0; i < files.Count; i++)
+                    {
+                        for(int j = i + 1; j < files.Count; j++)
+                        {
+                            if (files[i].Name == files[j].Name)
+                                files.Remove(files[j]);
+                        }
+                    }
+
+                    lv.Items.Clear();
+                    foreach (FileInfo file in files)
+                    {
+                        lv.Items.Add(file);
+                    }
+
+                    txtGetFile.Text = Path.GetDirectoryName(sFileName);
                 }
 
-                foreach (FileInfo file in files)
-                {
-                    lv.Items.Add(file);
-                }
                 
             }
+        }
+
+        private void Refresh(object sender, RoutedEventArgs e)
+        {
+            files.Clear();
+            lv.Items.Clear();
+
+            txtGetFile.Text = "C:\\path...";
         }
     }
 }

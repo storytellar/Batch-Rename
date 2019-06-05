@@ -40,7 +40,7 @@
                 </ControlTemplate>
             </Button.Template>
         </Button>
-        <Button Cursor="Hand" Grid.Column="1" Margin="465,20,12,422">
+        <Button Cursor="Hand" Grid.Column="1" Margin="465,20,12,422" Click="Refresh">
             <Button.Template>
                 <ControlTemplate>
                     <Image Source="icons/refresh2.png"  RenderOptions.BitmapScalingMode="HighQuality" />
