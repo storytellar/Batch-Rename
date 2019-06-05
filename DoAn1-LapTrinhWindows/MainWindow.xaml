@@ -14,7 +14,7 @@
         <ListView Margin="10,58,9,10" Width="485" Name="lv" Grid.Column="1">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Name" Width="200" DisplayMemberBinding="{Binding Name}" />
+                    <GridViewColumn Header="Name" Width="200" DisplayMemberBinding="{Binding Name}"/>
                     <GridViewColumn Header="New name" Width="200" DisplayMemberBinding="{Binding NewName}" />
                     <GridViewColumn Header="Status" Width="80" DisplayMemberBinding="{Binding Status}" />
                 </GridView>
@@ -33,14 +33,14 @@
                 <TextBlock Text="PREVIEW" VerticalAlignment="Center" FontWeight="SemiBold" />
             </StackPanel>
         </Button>
-        <Button Cursor="Hand" Grid.Column="1" Margin="424,15,50,422" Click="Get_File">
+        <Button Cursor="Hand" Grid.Column="1" Margin="424,20,50,422" Click="Get_File">
             <Button.Template>
                 <ControlTemplate>
                     <Image Source="icons/open.png"  RenderOptions.BitmapScalingMode="HighQuality" />
                 </ControlTemplate>
             </Button.Template>
         </Button>
-        <Button Cursor="Hand" Grid.Column="1" Margin="465,15,12,422">
+        <Button Cursor="Hand" Grid.Column="1" Margin="465,20,12,422">
             <Button.Template>
                 <ControlTemplate>
                     <Image Source="icons/refresh2.png"  RenderOptions.BitmapScalingMode="HighQuality" />

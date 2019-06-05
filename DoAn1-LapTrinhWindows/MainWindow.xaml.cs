@@ -13,7 +13,10 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+using System.IO;
 using Microsoft.Win32;
+using Path = System.IO.Path;
+using System.ComponentModel;
 
 namespace DoAn1_LapTrinhWindows
 {
@@ -25,29 +28,43 @@ namespace DoAn1_LapTrinhWindows
         public MainWindow()
         {
             InitializeComponent();
+
+            
         }
 
-
-        private void Get_File(object sender, RoutedEventArgs e)
+        public class FileInfo
         {
-            OpenFileDialog filedDialog = new OpenFileDialog();
-            filedDialog.Multiselect = true;
-            //filedDialog.Filter
-            Nullable<bool> dialogOK = filedDialog.ShowDialog();
-            if (dialogOK == true)
+            public string name;
+            public string Name
             {
-                string sFileNames = "";
-
-                foreach (string sFileName in filedDialog.FileNames)
+                get => name; set
                 {
-                    sFileNames += ";" + sFileName;
+                    name = value;
                 }
-
-                sFileNames = sFileNames.Substring(1);
-
-                txtGetFile.Text = sFileNames;
             }
         }
 
+        private void Get_File(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog fileDialog = new OpenFileDialog();
+            fileDialog.Multiselect = true;
+            //filedDialog.Filter
+            Nullable<bool> dialogOK = fileDialog.ShowDialog();
+            if (dialogOK == true)
+            {
+                BindingList<FileInfo> files = new BindingList<FileInfo>();
+
+                foreach (string sFileName in fileDialog.FileNames)
+                {
+                    files.Add(new FileInfo { Name = Path.GetFileName(sFileName) });
+                }
+
+                foreach (FileInfo file in files)
+                {
+                    lv.Items.Add(file);
+                }
+                
+            }
+        }
     }
 }
