@@ -94,5 +94,6 @@ namespace DoAn1_LapTrinhWindows
 
             txtGetFile.Text = "C:\\path...";
         }
+
     }
 }

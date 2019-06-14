@@ -8,46 +8,17 @@
         Title="NameChanger" Height="500" Width="810">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="4*"/>
-            <ColumnDefinition Width="7*"/>
+            <ColumnDefinition Width="290"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="80"/>
         </Grid.ColumnDefinitions>
-        <ListView Margin="10,58,9,10" Width="485" Name="lv" Grid.Column="1">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Header="Name" Width="200" DisplayMemberBinding="{Binding Name}"/>
-                    <GridViewColumn Header="New name" Width="200" DisplayMemberBinding="{Binding NewName}" />
-                    <GridViewColumn Header="Status" Width="80" DisplayMemberBinding="{Binding Status}" />
-                </GridView>
-            </ListView.View>
-        </ListView>
-        <TextBox Name="txtGetFile" HorizontalAlignment="Left" Height="23" Margin="20,20,0,0" TextWrapping="Wrap" Text="C:\\path..." VerticalAlignment="Top" Width="399" IsReadOnly="True" IsEnabled="False" Grid.Column="1"/>
-        <Button Margin="124,398,10,22" Cursor="Hand" >
-            <StackPanel Orientation="Horizontal">
-                <Image Source="icons/tichxanh.png" Height="36" RenderOptions.BitmapScalingMode="HighQuality" Margin="-5 0 5 0"/>
-                <TextBlock Text="START BATCH" VerticalAlignment="Center" FontWeight="ExtraBold" />
-            </StackPanel>
-        </Button>
-        <Button Margin="10,398,169,22" Cursor="Hand" >
-            <StackPanel Orientation="Horizontal">
-                <Image Source="icons/preview.png" Height="36" RenderOptions.BitmapScalingMode="HighQuality" Margin="-5 0 5 0"/>
-                <TextBlock Text="PREVIEW" VerticalAlignment="Center" FontWeight="SemiBold" />
-            </StackPanel>
-        </Button>
-        <Button Cursor="Hand" Grid.Column="1" Margin="424,20,50,422" Click="Get_File">
-            <Button.Template>
-                <ControlTemplate>
-                    <Image Source="icons/open.png"  RenderOptions.BitmapScalingMode="HighQuality" />
-                </ControlTemplate>
-            </Button.Template>
-        </Button>
-        <Button Cursor="Hand" Grid.Column="1" Margin="465,20,12,422" Click="Refresh">
-            <Button.Template>
-                <ControlTemplate>
-                    <Image Source="icons/refresh2.png"  RenderOptions.BitmapScalingMode="HighQuality" />
-                </ControlTemplate>
-            </Button.Template>
-        </Button>
+        <Grid.RowDefinitions>
+            <RowDefinition Height = "*" />
+            <RowDefinition Height = "70"/>
+        </Grid.RowDefinitions>
 
+
+        <!-- Group Presets -->
         <GroupBox HorizontalAlignment="Left" Height="60" Margin="10,10,0,0" VerticalAlignment="Top" Width="272" FontSize="13" FontWeight="Bold">
             <GroupBox.Header>
                 Presets
@@ -70,6 +41,54 @@
                 <ComboBox HorizontalAlignment="Left" Margin="84,6,0,0" VerticalAlignment="Top" Width="160" Height="24" />
             </Grid>
         </GroupBox>
+
+        <!-- 2 nut bam START va PREVIEW -->
+        <StackPanel Grid.Column="0" Grid.Row="1" Orientation="Horizontal">
+            <Button Width="120" Height="50" Cursor="Hand" Margin="10 0 0 20" >
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="icons/preview.png" Height="36" RenderOptions.BitmapScalingMode="HighQuality" Margin="-5 0 5 0"/>
+                    <TextBlock Text="PREVIEW" VerticalAlignment="Center" FontWeight="SemiBold" />
+                </StackPanel>
+            </Button>
+            <Button  Width="150" Height="50" Cursor="Hand" Margin="10 0 0 20">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="icons/tichxanh.png" Height="36" RenderOptions.BitmapScalingMode="HighQuality" Margin="-5 0 5 0"/>
+                    <TextBlock Text="START BATCH" VerticalAlignment="Center" FontWeight="ExtraBold" />
+                </StackPanel>
+            </Button>
+        </StackPanel>
+
+
+        <TextBox Grid.Column="1" Grid.Row="0" Margin="14 20 0 0" Height="23" HorizontalAlignment="Stretch"  Name="txtGetFile"  TextWrapping="Wrap" Text="C:\\path..." VerticalAlignment="Top" IsReadOnly="True" IsEnabled="False" ScrollViewer.VerticalScrollBarVisibility="Auto" />
+        <Canvas Grid.Column="2" Grid.Row="0">
+            <Button  Cursor="Hand" Height="30" Canvas.Top="18" Canvas.Left="5"  Click="Get_File" >
+                <Button.Template>
+                    <ControlTemplate>
+                        <Image Source="icons/open.png"  RenderOptions.BitmapScalingMode="HighQuality" />
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <Button   Cursor="Hand" Height="30" Canvas.Top="18" Canvas.Left="40"  Click="Refresh">
+                <Button.Template>
+                    <ControlTemplate>
+                        <Image Source="icons/refresh2.png"  RenderOptions.BitmapScalingMode="HighQuality" />
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+
+        </Canvas>
+        
+            <ListView Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="3" Grid.RowSpan="2" Name="lv" Margin="14,53,13,22" >
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Name" Width="200" DisplayMemberBinding="{Binding Name}"/>
+                        <GridViewColumn Header="New name" Width="200" DisplayMemberBinding="{Binding NewName}" />
+                        <GridViewColumn Header="Status" Width="80" DisplayMemberBinding="{Binding Status}" />
+                    </GridView>
+                </ListView.View>
+            </ListView>
+  
+
 
 
     </Grid>
