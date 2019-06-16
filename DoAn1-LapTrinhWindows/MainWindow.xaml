@@ -58,17 +58,17 @@
             </Button>
         </StackPanel>
 
-
+        <!-- TextBox Path va 2 button browse + refresh -->
         <TextBox Grid.Column="1" Grid.Row="0" Margin="14 20 0 0" Height="23" HorizontalAlignment="Stretch"  Name="txtGetFile"  TextWrapping="Wrap" Text="C:\\path..." VerticalAlignment="Top" IsReadOnly="True" IsEnabled="False" ScrollViewer.VerticalScrollBarVisibility="Auto" />
         <Canvas Grid.Column="2" Grid.Row="0">
-            <Button  Cursor="Hand" Height="30" Canvas.Top="18" Canvas.Left="5"  Click="Get_File" >
+            <Button  Cursor="Hand" Height="30" Canvas.Top="18" Canvas.Left="5" Click="ClickBrowseButton" >
                 <Button.Template>
                     <ControlTemplate>
                         <Image Source="icons/open.png"  RenderOptions.BitmapScalingMode="HighQuality" />
                     </ControlTemplate>
                 </Button.Template>
             </Button>
-            <Button   Cursor="Hand" Height="30" Canvas.Top="18" Canvas.Left="40"  Click="Refresh">
+            <Button   Cursor="Hand" Height="30" Canvas.Top="18" Canvas.Left="40"  Click="ClickRefreshButton">
                 <Button.Template>
                     <ControlTemplate>
                         <Image Source="icons/refresh2.png"  RenderOptions.BitmapScalingMode="HighQuality" />
@@ -78,7 +78,7 @@
 
         </Canvas>
         
-            <ListView Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="3" Grid.RowSpan="2" Name="lv" Margin="14,53,13,22" >
+        <ListView Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="3" Grid.RowSpan="2" Name="lv" Margin="14,53,13,22" >
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Name" Width="200" DisplayMemberBinding="{Binding Name}"/>

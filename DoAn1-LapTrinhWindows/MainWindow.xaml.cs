@@ -31,69 +31,21 @@ namespace DoAn1_LapTrinhWindows
             InitializeComponent();
         }
 
-        public class FileInfo : INotifyPropertyChanged
+      
+        private void ClickBrowseButton(object sender, RoutedEventArgs e)
         {
-            public string name;
-            public string Name
-            {
-                get => name; set
-                {
-                    name = value;
-                    RaiseEvent();
-                }
-            }
-
-            public event PropertyChangedEventHandler PropertyChanged;
-
-            void RaiseEvent([CallerMemberName] string propertyName = "")
-            {
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-            }
+            // result = askFileOrFolder() (Show dialog ask "Which type do you want to rename? (FILE / FOLDER)" 
+            // if result = 0 => file => loadFilesFromPath(path)
+            // if result = 1 => folder => loadFolderFromPath(path)
+            // else => NO => Do nothing
+            // (result is a global variable to be used in the Refresh function)
         }
 
-        BindingList<FileInfo> files = new BindingList<FileInfo>();
-
-        private void Get_File(object sender, RoutedEventArgs e)
+        private void ClickRefreshButton(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog fileDialog = new OpenFileDialog();
-            fileDialog.Multiselect = true;
-            //filedDialog.Filter
-            Nullable<bool> dialogOK = fileDialog.ShowDialog();
-            if (dialogOK == true)
-            {
-                foreach (string sFileName in fileDialog.FileNames)
-                {
-                    files.Add(new FileInfo { Name = Path.GetFileName(sFileName) });
-
-                    for(int i = 0; i < files.Count; i++)
-                    {
-                        for(int j = i + 1; j < files.Count; j++)
-                        {
-                            if (files[i].Name == files[j].Name)
-                                files.Remove(files[j]);
-                        }
-                    }
-
-                    lv.Items.Clear();
-                    foreach (FileInfo file in files)
-                    {
-                        lv.Items.Add(file);
-                    }
-
-                    txtGetFile.Text = Path.GetDirectoryName(sFileName);
-                }
-
-                
-            }
+            // loadFilesFromPath(path)
+            // or
+            // loadFolderFromPath(path)
         }
-
-        private void Refresh(object sender, RoutedEventArgs e)
-        {
-            files.Clear();
-            lv.Items.Clear();
-
-            txtGetFile.Text = "C:\\path...";
-        }
-
     }
 }
