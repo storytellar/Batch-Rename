@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+using Microsoft.WindowsAPICodePack.Dialogs;
 using System.IO;
 using Microsoft.Win32;
 using Path = System.IO.Path;
@@ -31,21 +32,82 @@ namespace DoAn1_LapTrinhWindows
             InitializeComponent();
         }
 
-      
+        public class FileInfo : INotifyPropertyChanged
+        {
+            public string name;
+            public string Name
+            {
+                get => name; set
+                {
+                    name = value;
+                    RaiseEvent();
+                }
+            }
+
+            public event PropertyChangedEventHandler PropertyChanged;
+
+            void RaiseEvent([CallerMemberName] string propertyName = "")
+            {
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
+        BindingList<FileInfo> files = new BindingList<FileInfo>();
+
         private void ClickBrowseButton(object sender, RoutedEventArgs e)
         {
-            // result = askFileOrFolder() (Show dialog ask "Which type do you want to rename? (FILE / FOLDER)" 
-            // if result = 0 => file => loadFilesFromPath(path)
-            // if result = 1 => folder => loadFolderFromPath(path)
-            // else => NO => Do nothing
-            // (result is a global variable to be used in the Refresh function)
+            CommonOpenFileDialog dialog = new CommonOpenFileDialog();
+            dialog.InitialDirectory = "C:\\";
+            dialog.Multiselect = true;
+
+            if (FolderButton.IsChecked == true)
+            {
+                dialog.IsFolderPicker = true;
+
+                if (files.Count != 0 && Path.GetExtension(files[0].Name) != "")
+                    files.Clear();
+            }
+
+            if (FileButton.IsChecked == true)
+            {
+                dialog.IsFolderPicker = false;
+
+                if (files.Count != 0 && Path.GetExtension(files[0].Name) == "")
+                    files.Clear();
+            }
+
+            if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
+            {
+                
+                foreach (string sFileName in dialog.FileNames)
+                {
+                    files.Add(new FileInfo { Name = Path.GetFileName(sFileName) });
+
+                    for (int i = 0; i < files.Count; i++)
+                    {
+                        for (int j = i + 1; j < files.Count; j++)
+                        {
+                            if (files[i].Name == files[j].Name)
+                                files.Remove(files[j]);
+                        }
+                    }
+
+                    lv.Items.Clear();
+                    foreach (FileInfo file in files)
+                    {
+                        lv.Items.Add(file);
+                    }
+
+                    txtGetFile.Text = Path.GetDirectoryName(sFileName);
+                }
+            }
         }
 
         private void ClickRefreshButton(object sender, RoutedEventArgs e)
         {
-            // loadFilesFromPath(path)
-            // or
-            // loadFolderFromPath(path)
+            files.Clear();
+            lv.Items.Clear();
+            txtGetFile.Text = "C:\\path...";
         }
     }
 }
