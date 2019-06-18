@@ -32,14 +32,26 @@ namespace DoAn1_LapTrinhWindows
             InitializeComponent();
         }
 
-        public class FileInfo : INotifyPropertyChanged
+        public class TargetInfo : INotifyPropertyChanged
         {
             public string name;
+            public string newName;
+            public string status;
+            public string dir;
             public string Name
             {
                 get => name; set
                 {
                     name = value;
+                    RaiseEvent();
+                }
+            }
+
+            public string Dir
+            {
+                get => dir; set
+                {
+                    dir = value;
                     RaiseEvent();
                 }
             }
@@ -61,34 +73,8 @@ namespace DoAn1_LapTrinhWindows
                     RaiseEvent();
                 }
             }
-
-            private string newName;
-
-            private string status;
-            private BitmapImage _ImageData;
-            public BitmapImage ImageData
-            {
-                get { return this._ImageData; }
-                set {
-                    this._ImageData = value;
-                    RaiseEvent();
-                }
-            }
-
             
-            public string NewCase(int mode)
-            {
-                if (mode == 1)
-                    return Name.ToUpper();
-                else if (mode == 2)
-                    return Name.ToLower();
-                else
-                {
-                    string kq = name.ToLower();
-                    return kq.First().ToString().ToUpper() + kq.Substring(1);
-
-                }
-            }
+            
 
             public string FullnameNormalize()
             {
@@ -106,6 +92,19 @@ namespace DoAn1_LapTrinhWindows
             void RaiseEvent([CallerMemberName] string propertyName = "")
             {
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
+        public string NewCaseFunc(string res)
+        {
+            if (radioUpperAll.IsChecked == true)
+                return res.ToUpper();
+            else if (radioLowerAll.IsChecked == true)
+                return res.ToLower();
+            else
+            {
+                string kq = res.ToLower();
+                return kq.First().ToString().ToUpper() + kq.Substring(1);
             }
         }
 
@@ -127,6 +126,10 @@ namespace DoAn1_LapTrinhWindows
 
             string Process(string origin);
         }
+        public class NewCaseArgs : IArgs
+        {
+            public string oldName { get; set; }
+        }
         public class ReplaceArgs : IArgs
         {
             public string Needle { get; set; }
@@ -141,10 +144,49 @@ namespace DoAn1_LapTrinhWindows
 
             public string Process(string origin)
             {
-                throw new NotImplementedException();
+                var args = Args as ReplaceArgs;
+                var needle = args.Needle;
+                var hammer = args.Hammer;
+
+                var res = origin.Replace(needle, hammer);
+
+                return res;
             }
         }
-        BindingList<FileInfo> files = new BindingList<FileInfo>();
+
+        public class ToUpperCase : IAction
+        {
+            public IArgs Args { get; set; }
+
+            public string Process(string origin)
+            {
+                return origin.ToUpper();
+            }
+        }
+
+        public class ToLowerCase : IAction
+        {
+            public IArgs Args { get; set; }
+
+            public string Process(string origin)
+            {
+                return origin.ToLower();
+            }
+        }
+
+        public class SpecialCase : IAction
+        {
+            public IArgs Args { get; set; }
+
+            public string Process(string origin)
+            {
+                string kq = origin.ToLower();
+                return kq.First().ToString().ToUpper() + kq.Substring(1);
+            }
+        }
+
+        BindingList<TargetInfo> targets = new BindingList<TargetInfo>();
+        List<IAction> actions = new List<IAction>();
 
         private void ClickBrowseButton(object sender, RoutedEventArgs e)
         {
@@ -156,16 +198,16 @@ namespace DoAn1_LapTrinhWindows
             {
                 dialog.IsFolderPicker = true;
 
-                if (files.Count != 0 && Path.GetExtension(files[0].Name) != "")
-                    files.Clear();
+                if (targets.Count != 0 && Path.GetExtension(targets[0].Name) != "")
+                    targets.Clear();
             }
 
             if (FileButton.IsChecked == true)
             {
                 dialog.IsFolderPicker = false;
 
-                if (files.Count != 0 && Path.GetExtension(files[0].Name) == "")
-                    files.Clear();
+                if (targets.Count != 0 && Path.GetExtension(targets[0].Name) == "")
+                    targets.Clear();
             }
 
             if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
@@ -173,21 +215,21 @@ namespace DoAn1_LapTrinhWindows
 
                 foreach (string sFileName in dialog.FileNames)
                 {
-                    files.Add(new FileInfo { Name = Path.GetFileName(sFileName), NewName = "No name", ImageData= LoadImage("icons/uncheck.png")});
+                    targets.Add(new TargetInfo { Name = Path.GetFileName(sFileName), NewName = "No name", Status = "Unchanged", Dir = Path.GetDirectoryName(sFileName) + "\\" });
 
-                    for (int i = 0; i < files.Count; i++)
+                    for (int i = 0; i < targets.Count; i++)
                     {
-                        for (int j = i + 1; j < files.Count; j++) 
+                        for (int j = i + 1; j < targets.Count; j++) 
                         {
-                            if (files[i].Name == files[j].Name)
-                                files.Remove(files[j]);
+                            if (targets[i].Name == targets[j].Name)
+                                targets.Remove(targets[j]);
                         }
                     }
 
                     lv.Items.Clear();
-                    foreach (FileInfo file in files)
+                    foreach (TargetInfo target in targets)
                     {
-                        lv.Items.Add(file);
+                        lv.Items.Add(target);
                     }
 
                     txtGetFile.Text = Path.GetDirectoryName(sFileName);
@@ -198,50 +240,90 @@ namespace DoAn1_LapTrinhWindows
 
         private void ClickRefreshButton(object sender, RoutedEventArgs e)
         {
-            files.Clear();
+            targets.Clear();
             lv.Items.Clear();
             txtGetFile.Text = "C:\\path...";
         }
 
-        private void ReNameButton_Click(object sender, RoutedEventArgs e)
+        private void BatchButton_Click(object sender, RoutedEventArgs e)
         {
+
             // Xử lý checkbox New Case
-            if (NC.IsChecked == true)
+            /*if (NC.IsChecked == true)
             {
                 if (radioUpperAll.IsChecked == true)
                 {
-                    foreach (var file in files)
+                    foreach (var target in targets)
                     {
-                        file.NewName = file.NewCase(1);
-                        file.ImageData = LoadImage("icons/checked.png");
+                        target.NewName = target.NewCase(1);
+                        target.Status = "Changed";
+                        
                     }
                 }
                 else if (radioLowerAll.IsChecked == true)
                 {
-                    foreach (var file in files)
+                    foreach (var target in targets)
                     {
-                        file.NewName = file.NewCase(2);
-                        file.ImageData = LoadImage("icons/checked.png");
+                        target.NewName = target.NewCase(2);
+                        target.Status = "Changed";
                     }
                 }
                 else
                 {
-                    foreach (var file in files)
+                    foreach (var target in targets)
                     {
-                        file.NewName = file.NewCase(3);
-                        file.ImageData = LoadImage("icons/checked.png");
+                        target.NewName = target.NewCase(3);
+                        target.Status = "Changed";
                     }
                 }
                 
-            }
-            //Xử lý Fullname normalize
-            else if (FN.IsChecked == true)
+            }*/
+
+            if (ReplaceBox.IsChecked == true)           
+                actions.Add(new Replacer() { Args = new ReplaceArgs() { Needle = TextNeedle.Text, Hammer = TextHammer.Text } });
+
+            if (NC.IsChecked == true)
             {
-                foreach (var file in files)
+                if (radioUpperAll.IsChecked == true)
+                    actions.Add(new ToUpperCase());
+
+                else if (radioLowerAll.IsChecked == true)
+                    actions.Add(new ToLowerCase());
+
+                else if (radioUpperFirstOne.IsChecked == true)
+                    actions.Add(new SpecialCase());
+            }
+            
+            /*Xử lý Fullname normalize
+            if (FN.IsChecked == true)
+            {
+                foreach (var target in targets)
                 {
-                    file.NewName = file.FullnameNormalize();
-                    file.ImageData = LoadImage("icons/checked.png");
+                    target.NewName = target.FullnameNormalize();
+                    target.Status = "Changed";
                 }
+            }*/
+
+            foreach (var target in targets)
+            {
+                var res = target.Name;
+                var temp = target.Name;
+
+                foreach (var action in actions)
+                {
+                    res = action.Process(res);
+                    target.NewName = res;
+                    if (Path.GetExtension(target.Name) != "")
+                        File.Move(target.Dir + temp, target.Dir + res);
+                    else
+                    {
+                        Directory.Move(target.Dir + temp, target.Dir + temp + "_temp");
+                        Directory.Move(target.Dir + temp + "_temp", target.Dir + res);
+                    }
+                    temp = res;
+                }
+
+                target.Status = "Changed";
             }
         }
 

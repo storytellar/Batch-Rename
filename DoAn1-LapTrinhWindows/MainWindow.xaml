@@ -13,13 +13,14 @@
             <ColumnDefinition Width="80"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height = "80" />
             <RowDefinition Height = "*" />
             <RowDefinition Height = "70"/>
         </Grid.RowDefinitions>
 
 
         <!-- Group Presets -->
-        <GroupBox HorizontalAlignment="Left" Height="60" Margin="10,10,0,0" VerticalAlignment="Top" Width="272" FontSize="13" FontWeight="Bold">
+        <GroupBox Grid.Row="0" HorizontalAlignment="Left" Height="60" Margin="10,10,0,0" VerticalAlignment="Top" Width="272" FontSize="13" FontWeight="Bold">
             <GroupBox.Header>
                 Presets
             </GroupBox.Header>
@@ -43,14 +44,14 @@
         </GroupBox>
 
         <!-- 2 nut bam START va PREVIEW -->
-        <StackPanel Grid.Column="0" Grid.Row="1" Orientation="Horizontal">
+        <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal">
             <Button Width="120" Height="50" Cursor="Hand" Margin="10 0 0 20" >
                 <StackPanel Orientation="Horizontal">
                     <Image Source="icons/preview.png" Height="36" RenderOptions.BitmapScalingMode="HighQuality" Margin="-5 0 5 0"/>
                     <TextBlock Text="PREVIEW" VerticalAlignment="Center" FontWeight="SemiBold" />
                 </StackPanel>
             </Button>
-            <Button Width="150" Height="50" Cursor="Hand" Margin="10 0 0 20" Name="ReNameButton" Click="ReNameButton_Click">
+            <Button Width="150" Height="50" Cursor="Hand" Margin="10 0 0 20" Name="BatchButton" Click="BatchButton_Click">
                 <StackPanel Orientation="Horizontal">
                     <Image Source="icons/tichxanh.png" Height="36" RenderOptions.BitmapScalingMode="HighQuality" Margin="-5 0 5 0"/>
                     <TextBlock Text="START BATCH" VerticalAlignment="Center" FontWeight="ExtraBold" />
@@ -61,7 +62,7 @@
 
         <!-- TextBox Path va 2 button browse + refresh -->
         <TextBox Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Margin="14 20 110 0" Height="23" HorizontalAlignment="Stretch"  Name="txtGetFile"  TextWrapping="Wrap" Text="C:\\path..." VerticalAlignment="Top" IsReadOnly="True" IsEnabled="False" ScrollViewer.VerticalScrollBarVisibility="Auto" />
-        <StackPanel Grid.Column="1" Margin="312,20,10,352" Orientation="Horizontal">
+        <StackPanel Grid.Row="0" Grid.Column="1" Margin="312,0,10,37" Orientation="Horizontal" Height="23" VerticalAlignment="Bottom">
             <RadioButton Content="File" Margin="10,1,1,1" Name="FileButton" IsChecked="True"/>
             <RadioButton Content="Folder" Margin="1" Name="FolderButton"/>
         </StackPanel>
@@ -89,87 +90,74 @@
                 <GridView>
                     <GridViewColumn Header="Name" Width="200" DisplayMemberBinding="{Binding Name}"/>
                     <GridViewColumn Header="New name" Width="200" DisplayMemberBinding="{Binding NewName}" />
-                    <GridViewColumn Header="Status" Width="80" >
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <Image Source="{Binding ImageData}" Height="40" Width="40" VerticalAlignment="Center"/>
-                                <!--
-                                , Converter={StaticResource converter}
-                                !-->
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
+                    <GridViewColumn Header="Status" Width="80" DisplayMemberBinding="{Binding Status}"/>
                 </GridView>
             </ListView.View>
         </ListView>
 
         <!-- DANH SACH CAC METHOD  (CHUA XU LY RESPONSIVE) -->
-        <StackPanel Margin="10,90,10,10" Grid.Column="0">
-            <Expander>
-                <Expander.Header>
-                    <StackPanel Orientation="Horizontal">
-                        <CheckBox Content="Replace"/>
-                    </StackPanel>
-                </Expander.Header>
+        <ScrollViewer Grid.Row="1" Grid.Column="0" VerticalScrollBarVisibility="Auto">
+            <StackPanel Orientation="Vertical" Margin="10,10,10,10">
+                <Expander>
+                    <Expander.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox Name="ReplaceBox" Content="Replace"/>
+                        </StackPanel>
+                    </Expander.Header>
 
-                <StackPanel  Margin="20 5 0 0">
-                    <TextBox Text="Search text"   Height="30" Margin="0 0 0 0"></TextBox>
-                    <TextBox Text="New text"   Height="30" Margin="0 0 0 0"></TextBox>
-                </StackPanel>
-            </Expander>
-            <Expander>
-                <Expander.Header>
-                    <StackPanel Orientation="Horizontal">
-                        <CheckBox Name="NC" Content="New Case"/>
+                    <StackPanel  Margin="20 5 0 0">
+                        <TextBox Name="TextNeedle" Text="Search text" Height="30" Margin="0 0 0 0"></TextBox>
+                        <TextBox Name="TextHammer" Text="New text" Height="30" Margin="0 0 0 0"></TextBox>
                     </StackPanel>
-                </Expander.Header>
-                <StackPanel Height="50"  Margin="20 5 0 0">
-                    <RadioButton Name="radioUpperAll" GroupName="NewCaseRadio" Content="Tat ca viet hoa"/>
-                    <RadioButton Name="radioLowerAll" GroupName="NewCaseRadio" Content="Tat ca viet thuong"/>
-                    <RadioButton Name="radioUpperFirstOne" GroupName="NewCaseRadio" Content="Chu dau viet hoa, con lai thuong"/>
-                </StackPanel>
-            </Expander>
-            <Expander>
-                <Expander.Header>
-                    <StackPanel Orientation="Horizontal">
-                        <CheckBox Name ="FN" Content="Fullname normalize"/>
+                </Expander>
+                <Expander>
+                    <Expander.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox Name="NC" Content="New Case"/>
+                        </StackPanel>
+                    </Expander.Header>
+                    <StackPanel Height="50"  Margin="20 5 0 0">
+                        <RadioButton IsChecked="True" Name="radioUpperAll" GroupName="NewCaseRadio" Content="Tat ca viet hoa"/>
+                        <RadioButton Name="radioLowerAll" GroupName="NewCaseRadio" Content="Tat ca viet thuong"/>
+                        <RadioButton Name="radioUpperFirstOne" GroupName="NewCaseRadio" Content="Chu dau viet hoa, con lai thuong"/>
                     </StackPanel>
-                </Expander.Header>
-                <StackPanel  Margin="20 5 0 0">
-                    <TextBlock Text="Họ tên được định nghĩa các yêu cầu như sau: Bắt đầu và kết thúc không có khoảng trắng, mỗi từ bắt đầu bằng kí tự viết hoa, các kí tự còn lại viết thường, không có quá 1 khoảng trắng giữa các từ." 
+                </Expander>
+                <Expander>
+                    <Expander.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox Name ="FN" Content="Fullname normalize"/>
+                        </StackPanel>
+                    </Expander.Header>
+                    <StackPanel  Margin="20 5 0 0">
+                        <TextBlock Text="Họ tên được định nghĩa các yêu cầu như sau: Bắt đầu và kết thúc không có khoảng trắng, mỗi từ bắt đầu bằng kí tự viết hoa, các kí tự còn lại viết thường, không có quá 1 khoảng trắng giữa các từ." 
                              TextWrapping="WrapWithOverflow">
-                    </TextBlock>
-                </StackPanel>
-            </Expander>
-            <Expander>
-                <Expander.Header>
-                    <StackPanel Orientation="Horizontal">
-                        <CheckBox Content="Move"/>
+                        </TextBlock>
                     </StackPanel>
-                </Expander.Header>
-                <StackPanel Height="35" Margin="20 5 0 0">
-                    <RadioButton Name="IDFirst"  GroupName="MoveRadio" Content="Ma truoc, ten sau"/>
-                    <RadioButton Name="NameFirst" GroupName="MoveRadio" Content="Ten truoc, ma sau"/>
-                </StackPanel>
-            </Expander>
-            <Expander>
-                <Expander.Header>
-                    <StackPanel Orientation="Horizontal">
-                        <CheckBox Content="Unique name"/>
+                </Expander>
+                <Expander>
+                    <Expander.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox Content="Move"/>
+                        </StackPanel>
+                    </Expander.Header>
+                    <StackPanel Height="35" Margin="20 5 0 0">
+                        <RadioButton Name="IDFirst"  GroupName="MoveRadio" Content="Ma truoc, ten sau"/>
+                        <RadioButton Name="NameFirst" GroupName="MoveRadio" Content="Ten truoc, ma sau"/>
                     </StackPanel>
-                </Expander.Header>
-                <StackPanel Margin="20 5 0 0">
-                    <TextBlock Text="Muốn đổi tên nhanh chóng một số ảnh trả về và nhét vào CDSL mà không bị trùng, hãy biến tên của mỗi tập tin tải về thành GUID để nó có tên là duy nhất." 
+                </Expander>
+                <Expander>
+                    <Expander.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox Content="Unique name"/>
+                        </StackPanel>
+                    </Expander.Header>
+                    <StackPanel Margin="20 5 0 0">
+                        <TextBlock Text="Muốn đổi tên nhanh chóng một số ảnh trả về và nhét vào CDSL mà không bị trùng, hãy biến tên của mỗi tập tin tải về thành GUID để nó có tên là duy nhất." 
                                TextWrapping="WrapWithOverflow">
-                    </TextBlock>
-                </StackPanel>
-            </Expander>
-
-        </StackPanel>
-
-
-
-
-
+                        </TextBlock>
+                    </StackPanel>
+                </Expander>
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </Window>
