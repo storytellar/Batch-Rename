@@ -50,12 +50,13 @@
                     <TextBlock Text="PREVIEW" VerticalAlignment="Center" FontWeight="SemiBold" />
                 </StackPanel>
             </Button>
-            <Button  Width="150" Height="50" Cursor="Hand" Margin="10 0 0 20">
+            <Button Width="150" Height="50" Cursor="Hand" Margin="10 0 0 20" Name="ReNameButton" Click="ReNameButton_Click">
                 <StackPanel Orientation="Horizontal">
                     <Image Source="icons/tichxanh.png" Height="36" RenderOptions.BitmapScalingMode="HighQuality" Margin="-5 0 5 0"/>
                     <TextBlock Text="START BATCH" VerticalAlignment="Center" FontWeight="ExtraBold" />
                 </StackPanel>
             </Button>
+
         </StackPanel>
 
         <!-- TextBox Path va 2 button browse + refresh -->
@@ -82,7 +83,7 @@
 
         </Canvas>
 
-        <ListView Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="3" Grid.RowSpan="2" Name="lv" Margin="14,53,13,22" >
+        <ListView Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="3" Grid.RowSpan="2" Name="lv" Margin="14,53,13,22" SelectionChanged="Lv_SelectionChanged" >
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Name" Width="200" DisplayMemberBinding="{Binding Name}"/>

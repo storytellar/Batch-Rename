@@ -44,6 +44,30 @@ namespace DoAn1_LapTrinhWindows
                 }
             }
 
+            public string NewName
+            {
+                get => newName; set
+                {
+                    newName = value;
+                    RaiseEvent();
+                }
+            }
+            private string newName;
+
+            public string NewCase(int mode)
+            {
+                if (mode == 1)
+                    return Name.ToLower();
+                else if (mode == 2)
+                    return Name.ToUpper();
+                else
+                {
+                    string kq = name.ToLower();
+                    return kq.First().ToString().ToUpper() + kq.Substring(1);
+
+                }
+            }
+
             public event PropertyChangedEventHandler PropertyChanged;
 
             void RaiseEvent([CallerMemberName] string propertyName = "")
@@ -51,7 +75,36 @@ namespace DoAn1_LapTrinhWindows
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
             }
         }
+        public interface IArgs
+        {
 
+        }
+        /// <summary>
+        /// Các hành động thao tác với chuối
+        /// </summary>
+        public interface IAction
+        {
+            IArgs Args { get; set; }
+
+            string Process(string origin);
+        }
+        public class ReplaceArgs : IArgs
+        {
+            public string Needle { get; set; }
+            public string Hammer { get; set; }
+        }
+        /// <summary>
+        /// Thao tác Replace
+        /// </summary>
+        public class Replacer : IAction
+        {
+            public IArgs Args { get; set; }
+
+            public string Process(string origin)
+            {
+                throw new NotImplementedException();
+            }
+        }
         BindingList<FileInfo> files = new BindingList<FileInfo>();
 
         private void ClickBrowseButton(object sender, RoutedEventArgs e)
@@ -81,7 +134,7 @@ namespace DoAn1_LapTrinhWindows
                 
                 foreach (string sFileName in dialog.FileNames)
                 {
-                    files.Add(new FileInfo { Name = Path.GetFileName(sFileName) });
+                    files.Add(new FileInfo { Name = Path.GetFileName(sFileName),NewName="No name" });
 
                     for (int i = 0; i < files.Count; i++)
                     {
@@ -108,6 +161,19 @@ namespace DoAn1_LapTrinhWindows
             files.Clear();
             lv.Items.Clear();
             txtGetFile.Text = "C:\\path...";
+        }
+
+        private void ReNameButton_Click(object sender, RoutedEventArgs e)
+        {
+            foreach(var file in files)
+            {
+                file.NewName = file.NewCase(1);
+            }
+        }
+
+        private void Lv_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
         }
     }
 }
