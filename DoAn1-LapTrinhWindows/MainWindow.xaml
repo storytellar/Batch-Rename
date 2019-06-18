@@ -60,7 +60,7 @@
         </StackPanel>
 
         <!-- TextBox Path va 2 button browse + refresh -->
-        <TextBox Grid.Column="1" Grid.Row="0" Margin="14 20 110 0" Height="23" HorizontalAlignment="Stretch"  Name="txtGetFile"  TextWrapping="Wrap" Text="C:\\path..." VerticalAlignment="Top" IsReadOnly="True" IsEnabled="False" ScrollViewer.VerticalScrollBarVisibility="Auto" />
+        <TextBox Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Margin="14 20 110 0" Height="23" HorizontalAlignment="Stretch"  Name="txtGetFile"  TextWrapping="Wrap" Text="C:\\path..." VerticalAlignment="Top" IsReadOnly="True" IsEnabled="False" ScrollViewer.VerticalScrollBarVisibility="Auto" />
         <StackPanel Grid.Column="1" Margin="312,20,10,352" Orientation="Horizontal">
             <RadioButton Content="File" Margin="10,1,1,1" Name="FileButton" IsChecked="True"/>
             <RadioButton Content="Folder" Margin="1" Name="FolderButton"/>
@@ -83,6 +83,7 @@
 
         </Canvas>
 
+        <!-- LISTVIEW sieu to -->
         <ListView Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="3" Grid.RowSpan="2" Name="lv" Margin="14,53,13,22" SelectionChanged="Lv_SelectionChanged" >
             <ListView.View>
                 <GridView>
@@ -93,6 +94,71 @@
             </ListView.View>
         </ListView>
 
+        <!-- DANH SACH CAC METHOD  (CHUA XU LY RESPONSIVE) -->
+        <StackPanel Margin="10,90,10,10" Grid.Column="0">
+            <Expander>
+                <Expander.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox Content="Replace"/>
+                    </StackPanel>
+                </Expander.Header>
+               
+                <StackPanel  Margin="20 5 0 0">
+                    <TextBox Text="Search text"   Height="30" Margin="0 0 0 0"></TextBox>
+                    <TextBox Text="New text"   Height="30" Margin="0 0 0 0"></TextBox>
+                </StackPanel>
+            </Expander>
+            <Expander>
+                <Expander.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox Content="New Case"/>
+                    </StackPanel>
+                </Expander.Header>
+                <StackPanel Height="50"  Margin="20 5 0 0">
+                    <RadioButton Name="radioUpperAll" GroupName="NewCaseRadio" Content="Tat ca viet hoa"/>
+                    <RadioButton Name="radioLowerAll" GroupName="NewCaseRadio" Content="Tat ca viet thuong"/>
+                    <RadioButton Name="radioUpperFirstOne" GroupName="NewCaseRadio" Content="Chu dau viet hoa, con lai thuong"/>
+                </StackPanel>
+            </Expander>
+            <Expander>
+                <Expander.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox Content="Fullname normalize"/>
+                    </StackPanel>
+                </Expander.Header>
+                <StackPanel  Margin="20 5 0 0">
+                    <TextBlock Text="Họ tên được định nghĩa các yêu cầu như sau: Bắt đầu và kết thúc không có khoảng trắng, mỗi từ bắt đầu bằng kí tự viết hoa, các kí tự còn lại viết thường, không có quá 1 khoảng trắng giữa các từ." 
+                             TextWrapping="WrapWithOverflow">
+                    </TextBlock>
+                </StackPanel>
+            </Expander>
+            <Expander>
+                <Expander.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox Content="Move"/>
+                    </StackPanel>
+                </Expander.Header>
+                <StackPanel Height="35" Margin="20 5 0 0">
+                    <RadioButton Name="IDFirst"  GroupName="MoveRadio" Content="Ma truoc, ten sau"/>
+                    <RadioButton Name="NameFirst" GroupName="MoveRadio" Content="Ten truoc, ma sau"/>
+                </StackPanel>
+            </Expander>
+            <Expander>
+                <Expander.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox Content="Unique name"/>
+                    </StackPanel>
+                </Expander.Header>
+                <StackPanel Margin="20 5 0 0">
+                    <TextBlock Text="Muốn đổi tên nhanh chóng một số ảnh trả về và nhét vào CDSL mà không bị trùng, hãy biến tên của mỗi tập tin tải về thành GUID để nó có tên là duy nhất." 
+                               TextWrapping="WrapWithOverflow">
+                    </TextBlock>
+                </StackPanel>
+            </Expander>
+
+        </StackPanel>
+        
+        
 
 
 
