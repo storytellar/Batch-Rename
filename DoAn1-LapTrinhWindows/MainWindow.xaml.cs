@@ -57,9 +57,9 @@ namespace DoAn1_LapTrinhWindows
             public string NewCase(int mode)
             {
                 if (mode == 1)
-                    return Name.ToLower();
-                else if (mode == 2)
                     return Name.ToUpper();
+                else if (mode == 2)
+                    return Name.ToLower();
                 else
                 {
                     string kq = name.ToLower();
@@ -165,11 +165,32 @@ namespace DoAn1_LapTrinhWindows
 
         private void ReNameButton_Click(object sender, RoutedEventArgs e)
         {
-            foreach(var file in files)
+            // Xử lý checkbox New Case
+            if (NC.IsChecked==true)
             {
-                file.NewName = file.NewCase(1);
+                if (radioUpperAll.IsChecked == true)
+                {
+                    foreach (var file in files)
+                    {
+                        file.NewName = file.NewCase(1);
+                    }
+                }
+                else if (radioLowerAll.IsChecked==true)
+                {
+                    foreach (var file in files)
+                    {
+                        file.NewName = file.NewCase(2);
+                    }
+                }
+                else
+                {
+                    foreach (var file in files)
+                    {
+                        file.NewName = file.NewCase(3);
+                    }
+                }
             }
-        }
+        } 
 
         private void Lv_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {

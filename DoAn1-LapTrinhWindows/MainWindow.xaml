@@ -111,7 +111,7 @@
             <Expander>
                 <Expander.Header>
                     <StackPanel Orientation="Horizontal">
-                        <CheckBox Content="New Case"/>
+                        <CheckBox Name="NC" Content="New Case"/>
                     </StackPanel>
                 </Expander.Header>
                 <StackPanel Height="50"  Margin="20 5 0 0">
