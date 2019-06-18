@@ -119,5 +119,11 @@
   <ItemGroup>
     <Resource Include="icons\save.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icons\checked.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icons\uncheck.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

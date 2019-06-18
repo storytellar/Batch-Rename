@@ -52,8 +52,30 @@ namespace DoAn1_LapTrinhWindows
                     RaiseEvent();
                 }
             }
+
+            public string Status
+            {
+                get => status; set
+                {
+                    status = value;
+                    RaiseEvent();
+                }
+            }
+
             private string newName;
 
+            private string status;
+            private BitmapImage _ImageData;
+            public BitmapImage ImageData
+            {
+                get { return this._ImageData; }
+                set {
+                    this._ImageData = value;
+                    RaiseEvent();
+                }
+            }
+
+            
             public string NewCase(int mode)
             {
                 if (mode == 1)
@@ -86,6 +108,12 @@ namespace DoAn1_LapTrinhWindows
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
             }
         }
+
+        private BitmapImage LoadImage(string v)
+        {
+            return new BitmapImage(new Uri("pack://application:,,,/" + v));
+        }
+
         public interface IArgs
         {
 
@@ -145,11 +173,11 @@ namespace DoAn1_LapTrinhWindows
 
                 foreach (string sFileName in dialog.FileNames)
                 {
-                    files.Add(new FileInfo { Name = Path.GetFileName(sFileName), NewName = "No name" });
+                    files.Add(new FileInfo { Name = Path.GetFileName(sFileName), NewName = "No name", ImageData= LoadImage("icons/uncheck.png")});
 
                     for (int i = 0; i < files.Count; i++)
                     {
-                        for (int j = i + 1; j < files.Count; j++)
+                        for (int j = i + 1; j < files.Count; j++) 
                         {
                             if (files[i].Name == files[j].Name)
                                 files.Remove(files[j]);
@@ -166,6 +194,7 @@ namespace DoAn1_LapTrinhWindows
                 }
             }
         }
+
 
         private void ClickRefreshButton(object sender, RoutedEventArgs e)
         {
@@ -184,6 +213,7 @@ namespace DoAn1_LapTrinhWindows
                     foreach (var file in files)
                     {
                         file.NewName = file.NewCase(1);
+                        file.ImageData = LoadImage("icons/checked.png");
                     }
                 }
                 else if (radioLowerAll.IsChecked == true)
@@ -191,6 +221,7 @@ namespace DoAn1_LapTrinhWindows
                     foreach (var file in files)
                     {
                         file.NewName = file.NewCase(2);
+                        file.ImageData = LoadImage("icons/checked.png");
                     }
                 }
                 else
@@ -198,8 +229,10 @@ namespace DoAn1_LapTrinhWindows
                     foreach (var file in files)
                     {
                         file.NewName = file.NewCase(3);
+                        file.ImageData = LoadImage("icons/checked.png");
                     }
                 }
+                
             }
             //Xử lý Fullname normalize
             else if (FN.IsChecked == true)
@@ -207,6 +240,7 @@ namespace DoAn1_LapTrinhWindows
                 foreach (var file in files)
                 {
                     file.NewName = file.FullnameNormalize();
+                    file.ImageData = LoadImage("icons/checked.png");
                 }
             }
         }

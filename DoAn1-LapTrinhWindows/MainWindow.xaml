@@ -89,7 +89,16 @@
                 <GridView>
                     <GridViewColumn Header="Name" Width="200" DisplayMemberBinding="{Binding Name}"/>
                     <GridViewColumn Header="New name" Width="200" DisplayMemberBinding="{Binding NewName}" />
-                    <GridViewColumn Header="Status" Width="80" DisplayMemberBinding="{Binding Status}" />
+                    <GridViewColumn Header="Status" Width="80" >
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Image Source="{Binding ImageData}" Height="40" Width="40" VerticalAlignment="Center"/>
+                                <!--
+                                , Converter={StaticResource converter}
+                                !-->
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
                 </GridView>
             </ListView.View>
         </ListView>
