@@ -102,7 +102,7 @@
                         <CheckBox Content="Replace"/>
                     </StackPanel>
                 </Expander.Header>
-               
+
                 <StackPanel  Margin="20 5 0 0">
                     <TextBox Text="Search text"   Height="30" Margin="0 0 0 0"></TextBox>
                     <TextBox Text="New text"   Height="30" Margin="0 0 0 0"></TextBox>
@@ -123,7 +123,7 @@
             <Expander>
                 <Expander.Header>
                     <StackPanel Orientation="Horizontal">
-                        <CheckBox Content="Fullname normalize"/>
+                        <CheckBox Name ="FN" Content="Fullname normalize"/>
                     </StackPanel>
                 </Expander.Header>
                 <StackPanel  Margin="20 5 0 0">
@@ -157,8 +157,8 @@
             </Expander>
 
         </StackPanel>
-        
-        
+
+
 
 
 

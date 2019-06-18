@@ -68,6 +68,17 @@ namespace DoAn1_LapTrinhWindows
                 }
             }
 
+            public string FullnameNormalize()
+            {
+                string res = name.ToLower();
+                res = res.First().ToString().ToUpper() + res.Substring(1);
+                while (res.IndexOf("  ") != -1)
+                {
+                    res = res.Replace("  ", " ");
+                }
+                return res;
+            }
+
             public event PropertyChangedEventHandler PropertyChanged;
 
             void RaiseEvent([CallerMemberName] string propertyName = "")
@@ -131,10 +142,10 @@ namespace DoAn1_LapTrinhWindows
 
             if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
-                
+
                 foreach (string sFileName in dialog.FileNames)
                 {
-                    files.Add(new FileInfo { Name = Path.GetFileName(sFileName),NewName="No name" });
+                    files.Add(new FileInfo { Name = Path.GetFileName(sFileName), NewName = "No name" });
 
                     for (int i = 0; i < files.Count; i++)
                     {
@@ -166,7 +177,7 @@ namespace DoAn1_LapTrinhWindows
         private void ReNameButton_Click(object sender, RoutedEventArgs e)
         {
             // Xử lý checkbox New Case
-            if (NC.IsChecked==true)
+            if (NC.IsChecked == true)
             {
                 if (radioUpperAll.IsChecked == true)
                 {
@@ -175,7 +186,7 @@ namespace DoAn1_LapTrinhWindows
                         file.NewName = file.NewCase(1);
                     }
                 }
-                else if (radioLowerAll.IsChecked==true)
+                else if (radioLowerAll.IsChecked == true)
                 {
                     foreach (var file in files)
                     {
@@ -190,7 +201,15 @@ namespace DoAn1_LapTrinhWindows
                     }
                 }
             }
-        } 
+            //Xử lý Fullname normalize
+            else if (FN.IsChecked == true)
+            {
+                foreach (var file in files)
+                {
+                    file.NewName = file.FullnameNormalize();
+                }
+            }
+        }
 
         private void Lv_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
