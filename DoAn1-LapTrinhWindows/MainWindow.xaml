@@ -153,7 +153,7 @@
                 <Expander>
                     <Expander.Header>
                         <StackPanel Orientation="Horizontal">
-                            <CheckBox Name ="FN" Content="Fullname normalize"/>
+                            <CheckBox Name ="FullNameNormalizeBox" Content="Fullname normalize"/>
                         </StackPanel>
                     </Expander.Header>
                     <StackPanel  Margin="20 5 0 0">

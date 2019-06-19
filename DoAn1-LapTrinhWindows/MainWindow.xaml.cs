@@ -195,6 +195,40 @@ namespace DoAn1_LapTrinhWindows
             }
         }
 
+        public class FullNameNormalizer : IAction
+        {
+            public IArgs Args { get; set; }
+
+            public string Process(string origin)
+            {
+                string result = "";
+                string str = origin;
+                for (int i = 0; i < str.Length; i++)
+                {
+                    // Remove starting with trash character
+                    while (!Char.IsLetter(str[0]))
+                        str = str.Remove(0, 1);
+
+                    // Remove ending with trash character
+                    while (!Char.IsLetter(str[str.Length - 1]))
+                        str = str.Remove(str.Length - 1);
+
+                    // UpperCase and LowerCase
+                    if (!Char.IsLetter(str[i]) && Char.IsLetter(str[i + 1]))
+                    {
+                        result = result + " " + Char.ToUpper(str[i + 1]); i++; continue;
+                    }
+                    else if (i == 0)
+                    {
+                        result = result + Char.ToUpper(str[i]);
+                    }
+                    else if (Char.IsLetter(str[i]))
+                           result = result + Char.ToLower(str[i]);
+                }
+                return result;
+            }
+        }
+
         BindingList<TargetInfo> targets = new BindingList<TargetInfo>();
         List<IAction> actions = new List<IAction>();
 
@@ -257,38 +291,6 @@ namespace DoAn1_LapTrinhWindows
 
         private void BatchButton_Click(object sender, RoutedEventArgs e)
         {
-
-            // Xử lý checkbox New Case
-            /*if (NC.IsChecked == true)
-            {
-                if (radioUpperAll.IsChecked == true)
-                {
-                    foreach (var target in targets)
-                    {
-                        target.NewName = target.NewCase(1);
-                        target.Status = "Changed";
-                        
-                    }
-                }
-                else if (radioLowerAll.IsChecked == true)
-                {
-                    foreach (var target in targets)
-                    {
-                        target.NewName = target.NewCase(2);
-                        target.Status = "Changed";
-                    }
-                }
-                else
-                {
-                    foreach (var target in targets)
-                    {
-                        target.NewName = target.NewCase(3);
-                        target.Status = "Changed";
-                    }
-                }
-                
-            }*/
-
             if (ReplaceBox.IsChecked == true)           
                 actions.Add(new Replacer() { Args = new ReplaceArgs() { Needle = TextNeedle.Text, Hammer = TextHammer.Text } });
 
@@ -313,15 +315,13 @@ namespace DoAn1_LapTrinhWindows
                     target.NewName = g.ToString();
                 }
             }
-            /*Xử lý Fullname normalize
-            if (FN.IsChecked == true)
+
+            // 
+            if (FullNameNormalizeBox.IsChecked == true)
             {
-                foreach (var target in targets)
-                {
-                    target.NewName = target.FullnameNormalize();
-                    target.Status = "Changed";
-                }
-            }*/
+                actions.Add(new FullNameNormalizer());
+            }
+
 
             foreach (var target in targets)
             {
