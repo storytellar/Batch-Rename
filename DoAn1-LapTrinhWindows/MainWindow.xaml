@@ -113,7 +113,7 @@
         </Canvas>
 
         <!-- LISTVIEW sieu to -->
-        <ListView Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="3" Grid.RowSpan="2" Name="lv" Margin="14,53,13,22" SelectionChanged="Lv_SelectionChanged" >
+        <ListView Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="3" Grid.RowSpan="3" Name="lv" Margin="14,53,13,22" SelectionChanged="Lv_SelectionChanged" >
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Name" Width="200" DisplayMemberBinding="{Binding Name}"/>
