@@ -38,11 +38,21 @@ namespace DoAn1_LapTrinhWindows
             public string newName;
             public string status;
             public string dir;
+            public string extension;
             public string Name
             {
                 get => name; set
                 {
                     name = value;
+                    RaiseEvent();
+                }
+            }
+
+            public string Extension
+            {
+                get => extension; set
+                {
+                    extension = value;
                     RaiseEvent();
                 }
             }
@@ -198,7 +208,7 @@ namespace DoAn1_LapTrinhWindows
             {
                 dialog.IsFolderPicker = true;
 
-                if (targets.Count != 0 && Path.GetExtension(targets[0].Name) != "")
+                if (targets.Count != 0 && targets[0].Extension != "")
                     targets.Clear();
             }
 
@@ -206,7 +216,7 @@ namespace DoAn1_LapTrinhWindows
             {
                 dialog.IsFolderPicker = false;
 
-                if (targets.Count != 0 && Path.GetExtension(targets[0].Name) == "")
+                if (targets.Count != 0 && targets[0].Extension == "")
                     targets.Clear();
             }
 
@@ -215,13 +225,13 @@ namespace DoAn1_LapTrinhWindows
 
                 foreach (string sFileName in dialog.FileNames)
                 {
-                    targets.Add(new TargetInfo { Name = Path.GetFileName(sFileName), NewName = "No name", Status = "Unchanged", Dir = Path.GetDirectoryName(sFileName) + "\\" });
+                    targets.Add(new TargetInfo { Name = Path.GetFileNameWithoutExtension(sFileName), NewName = "No name", Status = "Unchanged", Dir = Path.GetDirectoryName(sFileName) + "\\", Extension = Path.GetExtension(sFileName) });
 
                     for (int i = 0; i < targets.Count; i++)
                     {
                         for (int j = i + 1; j < targets.Count; j++) 
                         {
-                            if (targets[i].Name == targets[j].Name)
+                            if (targets[i].Name + targets[i].Extension == targets[j].Name + targets[j].Extension)
                                 targets.Remove(targets[j]);
                         }
                     }
@@ -308,18 +318,50 @@ namespace DoAn1_LapTrinhWindows
             {
                 var res = target.Name;
                 var temp = target.Name;
+                var ext = target.Extension;
 
                 foreach (var action in actions)
                 {
                     res = action.Process(res);
-                    target.NewName = res;
-                    if (Path.GetExtension(target.Name) != "")
-                        File.Move(target.Dir + temp, target.Dir + res);
+                    int tail = 1;
+
+                    if (target.Extension != "")
+                    {
+                        string[] infos = Directory.GetFiles(target.Dir);
+
+                        foreach(var info in infos)
+                        {
+                            if(target.Dir + res + ext == info)
+                            {
+                                foreach (var smallInfo in infos)
+                                    if (target.Dir + res + tail.ToString() + ext == smallInfo)
+                                        tail++;
+                                res += tail.ToString();
+                            }
+                        }
+                        
+                        File.Move(target.Dir + temp + ext, target.Dir + res + ext);
+                    }
+
                     else
                     {
+                        string[] infos = Directory.GetDirectories(target.Dir);
+
+                        foreach (var info in infos)
+                        {
+                            if (target.Dir + res + ext == info)
+                            {
+                                foreach (var smallInfo in infos)
+                                    if (target.Dir + res + tail.ToString() + ext == smallInfo)
+                                        tail++;
+                                res += tail.ToString();
+                            }
+                        }
+
                         Directory.Move(target.Dir + temp, target.Dir + temp + "_temp");
                         Directory.Move(target.Dir + temp + "_temp", target.Dir + res);
                     }
+                    target.NewName = res;
                     temp = res;
                 }
 
@@ -330,6 +372,26 @@ namespace DoAn1_LapTrinhWindows
         private void Lv_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
+        }
+
+        public string FixRepeatedName(string target, string ext, string[] files)
+        {
+            int tail = 1;
+            bool isRepeated = false;
+
+            foreach(var file in files)
+            {
+                if (target + ext == file)
+                {
+                    isRepeated = true;
+                    foreach (var f in files)
+                        if (target + tail.ToString() + ext == f)
+                            tail++;
+                }
+            }
+            if (isRepeated == false)
+                return target;
+            return target + tail.ToString();
         }
     }
 }
