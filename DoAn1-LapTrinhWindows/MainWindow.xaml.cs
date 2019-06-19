@@ -329,9 +329,18 @@ namespace DoAn1_LapTrinhWindows
 
         private void ClickRefreshButton(object sender, RoutedEventArgs e)
         {
-            targets.Clear();
             lv.Items.Clear();
-            txtGetFile.Text = "C:\\path...";
+
+            foreach (var target in targets)
+            {
+                if(target.Status == "Changed")
+                {
+                    target.Name = target.NewName;
+                    target.NewName = "No Name";
+                    target.Status = "Unchanged";
+                }
+                lv.Items.Add(target);
+            }
         }
 
         private void BatchButton_Click(object sender, RoutedEventArgs e)
@@ -596,6 +605,11 @@ namespace DoAn1_LapTrinhWindows
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             System.IO.Directory.CreateDirectory("presets");
+        }
+
+        private void PreviewButton_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

@@ -73,7 +73,7 @@
 
         <!-- 2 nut bam START va PREVIEW -->
         <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal">
-            <Button Width="120" Height="50" Cursor="Hand" Margin="10 0 0 20" >
+            <Button Width="120" Height="50" Cursor="Hand" Margin="10 0 0 20" Click="PreviewButton_Click">
                 <StackPanel Orientation="Horizontal">
                     <Image Source="icons/preview.png" Height="36" RenderOptions.BitmapScalingMode="HighQuality" Margin="-5 0 5 0"/>
                     <TextBlock Text="PREVIEW" VerticalAlignment="Center" FontWeight="SemiBold" />
