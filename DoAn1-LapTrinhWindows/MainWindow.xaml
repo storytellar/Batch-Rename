@@ -124,7 +124,7 @@
         </ListView>
 
         <!-- DANH SACH CAC METHOD  (CHUA XU LY RESPONSIVE) -->
-        <ScrollViewer Grid.Row="1" Grid.Column="0" VerticalScrollBarVisibility="Auto">
+        <ScrollViewer Grid.Row="1" Grid.Column="0" Margin="0 0 0 10" VerticalScrollBarVisibility="Hidden">
             <StackPanel Orientation="Vertical" Margin="10,10,10,10">
                 <Expander>
                     <Expander.Header>
