@@ -304,6 +304,15 @@ namespace DoAn1_LapTrinhWindows
                     actions.Add(new SpecialCase());
             }
             
+            if (UniqueNameBox.IsChecked==true)
+            {
+                foreach (var target in targets)
+                {
+                    Guid g;
+                    g = Guid.NewGuid();
+                    target.NewName = g.ToString();
+                }
+            }
             /*Xử lý Fullname normalize
             if (FN.IsChecked == true)
             {

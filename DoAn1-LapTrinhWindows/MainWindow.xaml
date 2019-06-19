@@ -176,7 +176,7 @@
                 <Expander>
                     <Expander.Header>
                         <StackPanel Orientation="Horizontal">
-                            <CheckBox Content="Unique name"/>
+                            <CheckBox Name ="UniqueNameBox" Content="Unique name"/>
                         </StackPanel>
                     </Expander.Header>
                     <StackPanel Margin="20 5 0 0">
