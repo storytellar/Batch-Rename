@@ -6,6 +6,34 @@
         xmlns:local="clr-namespace:DoAn1_LapTrinhWindows"
         mc:Ignorable="d"
         Title="NameChanger" Height="500" Width="810">
+    <Window.Resources>
+        <Style x:Key="MyWaterMarkStyle" TargetType="{x:Type TextBox}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TextBox}">
+                        <Grid>
+                            <Border Background="White" BorderBrush="#FF7D8683" BorderThickness="1"/>
+                            <ScrollViewer x:Name="PART_ContentHost" Margin="5,0,0,0" VerticalAlignment="Center" />
+                            <Label Margin="5,0,0,0" x:Name="WaterMarkLabel" Content="{TemplateBinding Tag}" VerticalAlignment="Center"
+                               Visibility="Collapsed" Foreground="Gray" FontFamily="Arial"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="Text" Value=""/>
+                                </MultiTrigger.Conditions>
+                                <Setter Property="Visibility" TargetName="WaterMarkLabel" Value="Visible"/>
+                            </MultiTrigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Foreground" Value="DimGray"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            
+        </Style>
+    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="290"/>
@@ -106,8 +134,8 @@
                     </Expander.Header>
 
                     <StackPanel  Margin="20 5 0 0">
-                        <TextBox Name="TextNeedle" Text="Search text" Height="30" Margin="0 0 0 0"></TextBox>
-                        <TextBox Name="TextHammer" Text="New text" Height="30" Margin="0 0 0 0"></TextBox>
+                        <TextBox Name="TextNeedle"  Style="{StaticResource MyWaterMarkStyle}" Tag="Search text" Height="30" Margin="0 0 0 0" TextChanged="TextNeedle_TextChanged"></TextBox>
+                        <TextBox Name="TextHammer" Style="{StaticResource MyWaterMarkStyle}" Tag="New text" Height="30" Margin="0 0 0 0"></TextBox>
                     </StackPanel>
                 </Expander>
                 <Expander>

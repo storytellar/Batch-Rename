@@ -393,5 +393,10 @@ namespace DoAn1_LapTrinhWindows
                 return target;
             return target + tail.ToString();
         }
+
+        private void TextNeedle_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
     }
 }
