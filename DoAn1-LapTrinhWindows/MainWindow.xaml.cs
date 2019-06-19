@@ -408,7 +408,8 @@ namespace DoAn1_LapTrinhWindows
             string timeNow = DateTime.Now.ToString("yyyy-MM-dd h_mm_ss tt");
             string presetContent = buildPresetContent();
             System.IO.File.WriteAllText(@".\presets\" + timeNow + ".bin", presetContent);
-            listPresetItem.Add(new Preset() { Name = timeNow, PresetPath = "./presets/" + timeNow + ".bin" });
+            listPresetItem.Add(new Preset() { Name = timeNow + ".bin", PresetPath = "./presets/" + timeNow + ".bin" });
+            ComboBoxPreset.SelectedIndex = listPresetItem.Count - 1;
         }
         private string buildPresetContent()
         {
