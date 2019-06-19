@@ -53,14 +53,14 @@
                 Presets
             </GroupBox.Header>
             <Grid>
-                <Button Cursor="Hand" Margin="10,0,217,0">
+                <Button Cursor="Hand" Margin="10,0,217,0" Click="ClickSavePresetButton">
                     <Button.Template>
                         <ControlTemplate>
                             <Image Source="icons/save.png" Height="32"  Width="32" RenderOptions.BitmapScalingMode="HighQuality" />
                         </ControlTemplate>
                     </Button.Template>
                 </Button>
-                <Button Cursor="Hand" Margin="48,0,181,0">
+                <Button Cursor="Hand" Margin="48,0,181,0" Click="ClickRemovePresetButton">
                     <Button.Template>
                         <ControlTemplate>
                             <Image Source="icons/delete.png" Height="32" Width="32" RenderOptions.BitmapScalingMode="HighQuality" />
@@ -113,7 +113,7 @@
         </Canvas>
 
         <!-- LISTVIEW sieu to -->
-        <ListView Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="3" Grid.RowSpan="3" Name="lv" Margin="14,53,13,22" SelectionChanged="Lv_SelectionChanged" >
+        <ListView Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="3" Grid.RowSpan="3" Name="lv" Margin="14,53,13,22" >
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Name" Width="200" DisplayMemberBinding="{Binding Name}"/>
@@ -129,19 +129,19 @@
                 <Expander>
                     <Expander.Header>
                         <StackPanel Orientation="Horizontal">
-                            <CheckBox Name="ReplaceBox" Content="Replace"/>
+                            <CheckBox Name="ReplaceBox" Content="Replace" Margin="5 0 0 0" FontSize="16" FontWeight="SemiBold"/>
                         </StackPanel>
                     </Expander.Header>
 
                     <StackPanel  Margin="20 5 0 0">
-                        <TextBox Name="TextNeedle"  Style="{StaticResource MyWaterMarkStyle}" Tag="Search text" Height="30" Margin="0 0 0 0" TextChanged="TextNeedle_TextChanged"></TextBox>
-                        <TextBox Name="TextHammer" Style="{StaticResource MyWaterMarkStyle}" Tag="New text" Height="30" Margin="0 0 0 0"></TextBox>
+                        <TextBox Name="TextNeedle"  Style="{StaticResource MyWaterMarkStyle}" Tag="Search text" Height="30" Margin="0 0 10 0" Cursor="Pen"></TextBox>
+                        <TextBox Name="TextHammer" Style="{StaticResource MyWaterMarkStyle}" Tag="New text" Height="30" Margin="0 0 10 0" Cursor="Pen"></TextBox>
                     </StackPanel>
                 </Expander>
                 <Expander>
                     <Expander.Header>
                         <StackPanel Orientation="Horizontal">
-                            <CheckBox Name="NC" Content="New Case"/>
+                            <CheckBox Name="NC" Content="New Case" Margin="5 0 0 0" FontSize="16" FontWeight="SemiBold"/>
                         </StackPanel>
                     </Expander.Header>
                     <StackPanel Height="50"  Margin="20 5 0 0">
@@ -153,7 +153,7 @@
                 <Expander>
                     <Expander.Header>
                         <StackPanel Orientation="Horizontal">
-                            <CheckBox Name ="FullNameNormalizeBox" Content="Fullname normalize"/>
+                            <CheckBox Name ="FullNameNormalizeBox" Content="Fullname normalize" Margin="5 0 0 0" FontSize="16" FontWeight="SemiBold"/>
                         </StackPanel>
                     </Expander.Header>
                     <StackPanel  Margin="20 5 0 0">
@@ -165,18 +165,18 @@
                 <Expander>
                     <Expander.Header>
                         <StackPanel Orientation="Horizontal">
-                            <CheckBox Content="Move"/>
+                            <CheckBox Content="Move" Margin="5 0 0 0" FontSize="16" FontWeight="SemiBold"/>
                         </StackPanel>
                     </Expander.Header>
                     <StackPanel Height="35" Margin="20 5 0 0">
-                        <RadioButton Name="IDFirst"  GroupName="MoveRadio" Content="Ma truoc, ten sau"/>
+                        <RadioButton Name="IDFirst"  GroupName="MoveRadio" Content="Ma truoc, ten sau" />
                         <RadioButton Name="NameFirst" GroupName="MoveRadio" Content="Ten truoc, ma sau"/>
                     </StackPanel>
                 </Expander>
                 <Expander>
                     <Expander.Header>
                         <StackPanel Orientation="Horizontal">
-                            <CheckBox Name ="UniqueNameBox" Content="Unique name"/>
+                            <CheckBox Name ="UniqueNameBox" Content="Unique name" Margin="5 0 0 0" FontSize="16" FontWeight="SemiBold"/>
                         </StackPanel>
                     </Expander.Header>
                     <StackPanel Margin="20 5 0 0">

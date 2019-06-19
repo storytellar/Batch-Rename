@@ -83,19 +83,6 @@ namespace DoAn1_LapTrinhWindows
                     RaiseEvent();
                 }
             }
-            
-            
-
-            public string FullnameNormalize()
-            {
-                string res = name.ToLower();
-                res = res.First().ToString().ToUpper() + res.Substring(1);
-                while (res.IndexOf("  ") != -1)
-                {
-                    res = res.Replace("  ", " ");
-                }
-                return res;
-            }
 
             public event PropertyChangedEventHandler PropertyChanged;
 
@@ -103,24 +90,6 @@ namespace DoAn1_LapTrinhWindows
             {
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
             }
-        }
-
-        public string NewCaseFunc(string res)
-        {
-            if (radioUpperAll.IsChecked == true)
-                return res.ToUpper();
-            else if (radioLowerAll.IsChecked == true)
-                return res.ToLower();
-            else
-            {
-                string kq = res.ToLower();
-                return kq.First().ToString().ToUpper() + kq.Substring(1);
-            }
-        }
-
-        private BitmapImage LoadImage(string v)
-        {
-            return new BitmapImage(new Uri("pack://application:,,,/" + v));
         }
 
         public interface IArgs
@@ -135,10 +104,6 @@ namespace DoAn1_LapTrinhWindows
             IArgs Args { get; set; }
 
             string Process(string origin);
-        }
-        public class NewCaseArgs : IArgs
-        {
-            public string oldName { get; set; }
         }
         public class ReplaceArgs : IArgs
         {
@@ -281,7 +246,6 @@ namespace DoAn1_LapTrinhWindows
             }
         }
 
-
         private void ClickRefreshButton(object sender, RoutedEventArgs e)
         {
             targets.Clear();
@@ -316,7 +280,6 @@ namespace DoAn1_LapTrinhWindows
                 }
             }
 
-            // 
             if (FullNameNormalizeBox.IsChecked == true)
             {
                 actions.Add(new FullNameNormalizer());
@@ -378,10 +341,6 @@ namespace DoAn1_LapTrinhWindows
             }
         }
 
-        private void Lv_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
 
         public string FixRepeatedName(string target, string ext, string[] files)
         {
@@ -403,9 +362,14 @@ namespace DoAn1_LapTrinhWindows
             return target + tail.ToString();
         }
 
-        private void TextNeedle_TextChanged(object sender, TextChangedEventArgs e)
+        private void ClickSavePresetButton(object sender, RoutedEventArgs e)
         {
+            // save preset
+        }
 
+        private void ClickRemovePresetButton(object sender, RoutedEventArgs e)
+        {
+            // remove preset
         }
     }
 }
