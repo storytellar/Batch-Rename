@@ -27,6 +27,37 @@ namespace DoAn1_LapTrinhWindows
     /// </summary>
     public partial class MainWindow : Window
     {
+        class Preset : INotifyPropertyChanged
+        {
+            private string name;
+            private string presetPath;
+
+            public string Name
+            {
+                get => name; set
+                {
+                    name = value;
+                    RaiseEvent("Name");
+                }
+            }
+            public string PresetPath
+            {
+                get => presetPath; set
+                {
+                    presetPath = value;
+                    RaiseEvent("PresetPath");
+                }
+            }
+
+            public event PropertyChangedEventHandler PropertyChanged;
+
+            void RaiseEvent(string propertyName)
+            {
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            }
+
+        }
+        BindingList<Preset> listPresetItem;
         public MainWindow()
         {
             InitializeComponent();
@@ -374,11 +405,174 @@ namespace DoAn1_LapTrinhWindows
         private void ClickSavePresetButton(object sender, RoutedEventArgs e)
         {
             // save preset
+            string timeNow = DateTime.Now.ToString("yyyy-MM-dd h_mm_ss tt");
+            string presetContent = buildPresetContent();
+            System.IO.File.WriteAllText(@".\presets\" + timeNow + ".bin", presetContent);
+            listPresetItem.Add(new Preset() { Name = timeNow, PresetPath = "./presets/" + timeNow + ".bin" });
         }
+        private string buildPresetContent()
+        {
+            string presetContent = "";
+            string option = "";
 
+            if (ReplaceBox.IsChecked == true)
+            {
+                presetContent += "Replace|TRUE|" + TextNeedle.Text + "|" + TextHammer.Text + "|";
+            }
+            else
+            {
+                presetContent += "Replace|FALSE|";
+            }
+
+            presetContent += "\r\n";
+            if (NC.IsChecked == true)
+            {
+                if (radioUpperAll.IsChecked == true)
+                    option = "1";
+                else if (radioLowerAll.IsChecked == true)
+                    option = "2";
+                else if (radioUpperFirstOne.IsChecked == true)
+                    option = "3";
+                presetContent += "NewCase|TRUE|" + option + "|";
+            }
+            else
+            {
+                presetContent += "NewCase|FALSE|";
+            }
+
+            presetContent += "\r\n";
+            if (FullNameNormalizeBox.IsChecked == true)
+            {
+                presetContent += "FullName|TRUE|";
+            }
+            else
+            {
+                presetContent += "FullName|FALSE|";
+            }
+
+            presetContent += "\r\n";
+            if (MoveBox.IsChecked == true)
+            {
+                if (IDFirst.IsChecked == true)
+                    option = "1";
+                else if (NameFirst.IsChecked == true)
+                    option = "2";
+                presetContent += "Move|TRUE|" + option + "|";
+            }
+            else
+            {
+                presetContent += "Move|FALSE|";
+            }
+
+            presetContent += "\r\n";
+            if (UniqueNameBox.IsChecked == true)
+            {
+                presetContent += "UniqueName|TRUE|";
+            }
+            else
+            {
+                presetContent += "UniqueName|FALSE|";
+            }
+            return presetContent;
+        }
+        private void applyPreset(string path)
+        {
+            string[] lines = File.ReadAllLines(path);
+
+            foreach (string line in lines)
+            {
+                string[] pieces = line.Split('|');
+                switch (pieces[0])
+                {
+                    case "Replace":
+                        if (pieces[1] == "TRUE")
+                        {
+                            ReplaceBox.IsChecked = true;
+                            TextNeedle.Text = pieces[2];
+                            TextHammer.Text = pieces[3];
+                        }
+                        else
+                            ReplaceBox.IsChecked = false;
+                        break;
+                    case "NewCase":
+                        if (pieces[1] == "TRUE")
+                        {
+                            NC.IsChecked = true;
+                            if (pieces[2] == "1")
+                                radioUpperAll.IsChecked = true;
+                            else if (pieces[2] == "2")
+                                radioLowerAll.IsChecked = true;
+                            else if (pieces[2] == "3")
+                                radioUpperFirstOne.IsChecked = true;
+                        }
+                        else
+                            NC.IsChecked = false;
+                        break;
+                    case "FullName":
+                        if (pieces[1] == "TRUE")
+                            FullNameNormalizeBox.IsChecked = true;
+                        else
+                            FullNameNormalizeBox.IsChecked = false;
+                        break;
+                    case "Move":
+                        if (pieces[1] == "TRUE")
+                        {
+                            MoveBox.IsChecked = true;
+                            if (pieces[2] == "1")
+                                IDFirst.IsChecked = true;
+                            else if (pieces[2] == "2")
+                                NameFirst.IsChecked = true;
+                        }
+                        else
+                            MoveBox.IsChecked = false;
+                        break;
+                    case "UniqueName":
+                        if (pieces[1] == "TRUE")
+                            UniqueNameBox.IsChecked = true;
+                        else
+                            UniqueNameBox.IsChecked = false; break;
+                    default: break;
+
+                }
+            }
+
+        }
         private void ClickRemovePresetButton(object sender, RoutedEventArgs e)
         {
             // remove preset
+            var index = ComboBoxPreset.SelectedIndex;
+            var path = ComboBoxPreset.SelectedValue;
+            ComboBoxPreset.SelectedIndex = 0;
+            if (index != 0)
+            {
+                listPresetItem.RemoveAt(index);
+                File.Delete(path.ToString());
+            }
+
+        }
+        private void ChangePreset(object sender, SelectionChangedEventArgs e)
+        {
+            if (ComboBoxPreset.SelectedValue.ToString() != "0")
+                applyPreset(ComboBoxPreset.SelectedValue.ToString());
+        }
+        private void ComboBoxPreset_Loaded(object sender, RoutedEventArgs e)
+        {
+            listPresetItem = new BindingList<Preset>() { };
+            DirectoryInfo presetDir = new DirectoryInfo(@".\presets");
+            FileInfo[] Files = presetDir.GetFiles("*.bin");
+            listPresetItem.Add(new Preset() { Name = "(none)", PresetPath = "0" });
+            foreach (FileInfo file in Files)
+            {
+                listPresetItem.Add(new Preset() { Name = file.Name, PresetPath = "./presets/" + file.Name });
+            }
+
+            ComboBoxPreset.ItemsSource = listPresetItem;
+            ComboBoxPreset.SelectedIndex = 0;
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            System.IO.Directory.CreateDirectory("presets");
         }
     }
 }

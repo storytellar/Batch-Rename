@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DoAn1_LapTrinhWindows"
         mc:Ignorable="d"
-        Title="NameChanger" Height="500" Width="810">
+        Title="NameChanger" Height="500" Width="810" Loaded="Window_Loaded">
     <Window.Resources>
         <Style x:Key="MyWaterMarkStyle" TargetType="{x:Type TextBox}">
             <Setter Property="Template">
@@ -67,7 +67,7 @@
                         </ControlTemplate>
                     </Button.Template>
                 </Button>
-                <ComboBox HorizontalAlignment="Left" Margin="84,6,0,0" VerticalAlignment="Top" Width="160" Height="24" />
+                <ComboBox Loaded="ComboBoxPreset_Loaded" ItemsSource="{Binding listPresetItem}" SelectedValuePath="PresetPath" DisplayMemberPath="Name" Name="ComboBoxPreset" HorizontalAlignment="Left" Margin="84,6,0,0" VerticalAlignment="Top" Width="160" Height="24" SelectionChanged="ChangePreset" FontWeight="Normal" />
             </Grid>
         </GroupBox>
 
@@ -165,7 +165,7 @@
                 <Expander>
                     <Expander.Header>
                         <StackPanel Orientation="Horizontal">
-                            <CheckBox Content="Move" Margin="5 0 0 0" FontSize="16" FontWeight="SemiBold"/>
+                            <CheckBox Content="Move" Name="MoveBox" Margin="5 0 0 0" FontSize="16" FontWeight="SemiBold"/>
                         </StackPanel>
                     </Expander.Header>
                     <StackPanel Height="35" Margin="20 5 0 0">
