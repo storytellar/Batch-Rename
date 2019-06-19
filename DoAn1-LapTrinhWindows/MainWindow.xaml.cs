@@ -194,6 +194,20 @@ namespace DoAn1_LapTrinhWindows
             }
         }
 
+        public class UniqueName: IAction
+        {
+            public IArgs Args { get; set; }
+
+            public string Process(string origin)
+            {
+                string res = "";
+                Guid g;
+                g = Guid.NewGuid();
+                res = g.ToString();
+                return res;
+            }
+        }
+
         BindingList<TargetInfo> targets = new BindingList<TargetInfo>();
         List<IAction> actions = new List<IAction>();
 
@@ -272,12 +286,7 @@ namespace DoAn1_LapTrinhWindows
             
             if (UniqueNameBox.IsChecked==true)
             {
-                foreach (var target in targets)
-                {
-                    Guid g;
-                    g = Guid.NewGuid();
-                    target.NewName = g.ToString();
-                }
+                actions.Add(new UniqueName());
             }
 
             if (FullNameNormalizeBox.IsChecked == true)
