@@ -141,7 +141,7 @@
                 <Expander>
                     <Expander.Header>
                         <StackPanel Orientation="Horizontal">
-                            <CheckBox Name="NC" Content="New Case" Margin="5 0 0 0" FontSize="16" FontWeight="SemiBold"/>
+                            <CheckBox Name="NewCaseBox" Content="New Case" Margin="5 0 0 0" FontSize="16" FontWeight="SemiBold"/>
                         </StackPanel>
                     </Expander.Header>
                     <StackPanel Height="50"  Margin="20 5 0 0">
@@ -169,8 +169,8 @@
                         </StackPanel>
                     </Expander.Header>
                     <StackPanel Height="35" Margin="20 5 0 0">
-                        <RadioButton Name="IDFirst"  GroupName="MoveRadio" Content="Ma truoc, ten sau" />
-                        <RadioButton Name="NameFirst" GroupName="MoveRadio" Content="Ten truoc, ma sau"/>
+                        <RadioButton IsChecked="True" Name="IDFirstRadio"  GroupName="MoveRadio" Content="Ma truoc, ten sau" />
+                        <RadioButton Name="NameFirstRadio" GroupName="MoveRadio" Content="Ten truoc, ma sau"/>
                     </StackPanel>
                 </Expander>
                 <Expander>

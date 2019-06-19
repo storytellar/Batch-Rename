@@ -19,6 +19,7 @@ using Microsoft.Win32;
 using Path = System.IO.Path;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 
 namespace DoAn1_LapTrinhWindows
 {
@@ -238,7 +239,42 @@ namespace DoAn1_LapTrinhWindows
                 return res;
             }
         }
+        public class IDFirst : IAction
+        {
+            public IArgs Args { get; set; }
 
+            public string Process(string origin)
+            {
+                string res = "";
+                Regex myRex = new Regex(@"(\d)((\d|-){11})(\d)");         //Find the ISBN number.
+
+                Match ISBN = myRex.Match(origin);
+
+                res += ISBN.ToString();
+                res += " ";
+                res += origin.Replace(ISBN.ToString(), "");
+
+                return res;
+            }
+        }
+        public class NameFirst : IAction
+        {
+            public IArgs Args { get; set; }
+
+            public string Process(string origin)
+            {
+                string res = "";
+                Regex myRex = new Regex(@"(\d)((\d|-){11})(\d)");         //Find the ISBN number.
+
+                Match ISBN = myRex.Match(origin);
+
+                res += origin.Replace(ISBN.ToString(), "");
+                res += " ";
+                res += ISBN.ToString();
+
+                return res;
+            }
+        }
         BindingList<TargetInfo> targets = new BindingList<TargetInfo>();
         List<IAction> actions = new List<IAction>();
 
@@ -303,7 +339,7 @@ namespace DoAn1_LapTrinhWindows
             if (ReplaceBox.IsChecked == true)           
                 actions.Add(new Replacer() { Args = new ReplaceArgs() { Needle = TextNeedle.Text, Hammer = TextHammer.Text } });
 
-            if (NC.IsChecked == true)
+            if (NewCaseBox.IsChecked == true)
             {
                 if (radioUpperAll.IsChecked == true)
                     actions.Add(new ToUpperCase());
@@ -314,17 +350,24 @@ namespace DoAn1_LapTrinhWindows
                 else if (radioUpperFirstOne.IsChecked == true)
                     actions.Add(new SpecialCase());
             }
-            
-            if (UniqueNameBox.IsChecked==true)
-            {
-                actions.Add(new UniqueName());
-            }
 
             if (FullNameNormalizeBox.IsChecked == true)
             {
                 actions.Add(new FullNameNormalizer());
             }
 
+            if (UniqueNameBox.IsChecked==true)
+            {
+                actions.Add(new UniqueName());
+            }
+
+            if(MoveBox.IsChecked == true)
+            {
+                if (IDFirstRadio.IsChecked == true)
+                    actions.Add(new IDFirst());
+                else if(NameFirstRadio.IsChecked == true)
+                    actions.Add(new NameFirst());
+            }
 
             foreach (var target in targets)
             {
@@ -381,27 +424,6 @@ namespace DoAn1_LapTrinhWindows
             }
         }
 
-
-        public string FixRepeatedName(string target, string ext, string[] files)
-        {
-            int tail = 1;
-            bool isRepeated = false;
-
-            foreach(var file in files)
-            {
-                if (target + ext == file)
-                {
-                    isRepeated = true;
-                    foreach (var f in files)
-                        if (target + tail.ToString() + ext == f)
-                            tail++;
-                }
-            }
-            if (isRepeated == false)
-                return target;
-            return target + tail.ToString();
-        }
-
         private void ClickSavePresetButton(object sender, RoutedEventArgs e)
         {
             // save preset
@@ -426,7 +448,7 @@ namespace DoAn1_LapTrinhWindows
             }
 
             presetContent += "\r\n";
-            if (NC.IsChecked == true)
+            if (NewCaseBox.IsChecked == true)
             {
                 if (radioUpperAll.IsChecked == true)
                     option = "1";
@@ -454,9 +476,9 @@ namespace DoAn1_LapTrinhWindows
             presetContent += "\r\n";
             if (MoveBox.IsChecked == true)
             {
-                if (IDFirst.IsChecked == true)
+                if (IDFirstRadio.IsChecked == true)
                     option = "1";
-                else if (NameFirst.IsChecked == true)
+                else if (NameFirstRadio.IsChecked == true)
                     option = "2";
                 presetContent += "Move|TRUE|" + option + "|";
             }
@@ -498,7 +520,7 @@ namespace DoAn1_LapTrinhWindows
                     case "NewCase":
                         if (pieces[1] == "TRUE")
                         {
-                            NC.IsChecked = true;
+                            NewCaseBox.IsChecked = true;
                             if (pieces[2] == "1")
                                 radioUpperAll.IsChecked = true;
                             else if (pieces[2] == "2")
@@ -507,7 +529,7 @@ namespace DoAn1_LapTrinhWindows
                                 radioUpperFirstOne.IsChecked = true;
                         }
                         else
-                            NC.IsChecked = false;
+                            NewCaseBox.IsChecked = false;
                         break;
                     case "FullName":
                         if (pieces[1] == "TRUE")
@@ -520,9 +542,9 @@ namespace DoAn1_LapTrinhWindows
                         {
                             MoveBox.IsChecked = true;
                             if (pieces[2] == "1")
-                                IDFirst.IsChecked = true;
+                                IDFirstRadio.IsChecked = true;
                             else if (pieces[2] == "2")
-                                NameFirst.IsChecked = true;
+                                NameFirstRadio.IsChecked = true;
                         }
                         else
                             MoveBox.IsChecked = false;
