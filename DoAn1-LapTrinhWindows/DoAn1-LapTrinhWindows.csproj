@@ -125,5 +125,9 @@
   <ItemGroup>
     <Resource Include="icons\uncheck.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icons\addFile.png" />
+    <Resource Include="icons\addFolder.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

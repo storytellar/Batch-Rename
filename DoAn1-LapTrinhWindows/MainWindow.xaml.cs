@@ -278,28 +278,16 @@ namespace DoAn1_LapTrinhWindows
         BindingList<TargetInfo> targets = new BindingList<TargetInfo>();
         List<IAction> actions = new List<IAction>();
 
-        private void ClickBrowseButton(object sender, RoutedEventArgs e)
+        private void browseFolders()
         {
+            // Add folders
             CommonOpenFileDialog dialog = new CommonOpenFileDialog();
             dialog.InitialDirectory = "C:\\";
             dialog.Multiselect = true;
+            dialog.IsFolderPicker = true;
 
-            if (FolderButton.IsChecked == true)
-            {
-                dialog.IsFolderPicker = true;
-
-                if (targets.Count != 0 && targets[0].Extension != "")
-                    targets.Clear();
-            }
-
-            if (FileButton.IsChecked == true)
-            {
-                dialog.IsFolderPicker = false;
-
-                if (targets.Count != 0 && targets[0].Extension == "")
-                    targets.Clear();
-            }
-
+            if (targets.Count != 0 && targets[0].Extension != "")
+                targets.Clear();
             if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
 
@@ -309,7 +297,42 @@ namespace DoAn1_LapTrinhWindows
 
                     for (int i = 0; i < targets.Count; i++)
                     {
-                        for (int j = i + 1; j < targets.Count; j++) 
+                        for (int j = i + 1; j < targets.Count; j++)
+                        {
+                            if (targets[i].Name + targets[i].Extension == targets[j].Name + targets[j].Extension)
+                                targets.Remove(targets[j]);
+                        }
+                    }
+
+                    lv.Items.Clear();
+                    foreach (TargetInfo target in targets)
+                    {
+                        lv.Items.Add(target);
+                    }
+
+                    txtGetFile.Text = Path.GetDirectoryName(sFileName);
+                }
+            }
+        }
+        private void browseFiles()
+        {
+            CommonOpenFileDialog dialog = new CommonOpenFileDialog();
+            dialog.InitialDirectory = "C:\\";
+            dialog.Multiselect = true;
+            dialog.IsFolderPicker = false;
+
+            if (targets.Count != 0 && targets[0].Extension == "")
+                targets.Clear();
+            if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
+            {
+
+                foreach (string sFileName in dialog.FileNames)
+                {
+                    targets.Add(new TargetInfo { Name = Path.GetFileNameWithoutExtension(sFileName), NewName = "No name", Status = "Unchanged", Dir = Path.GetDirectoryName(sFileName) + "\\", Extension = Path.GetExtension(sFileName) });
+
+                    for (int i = 0; i < targets.Count; i++)
+                    {
+                        for (int j = i + 1; j < targets.Count; j++)
                         {
                             if (targets[i].Name + targets[i].Extension == targets[j].Name + targets[j].Extension)
                                 targets.Remove(targets[j]);
@@ -609,9 +632,21 @@ namespace DoAn1_LapTrinhWindows
             System.IO.Directory.CreateDirectory("presets");
         }
 
+        private void ClickBrowseFiles(object sender, RoutedEventArgs e)
+        {
+            browseFiles();
+        }
+
+        private void ClickBrowseFolders(object sender, RoutedEventArgs e)
+        {
+            browseFolders();
+        }
+
         private void PreviewButton_Click(object sender, RoutedEventArgs e)
         {
 
         }
+
+       
     }
 }

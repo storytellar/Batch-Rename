@@ -38,7 +38,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="290"/>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="80"/>
+            <ColumnDefinition Width="120"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height = "80" />
@@ -89,20 +89,24 @@
         </StackPanel>
 
         <!-- TextBox Path va 2 button browse + refresh -->
-        <TextBox Grid.Column="1" Grid.Row="0" Margin="14,20,110,35" x:Name="txtGetFile" TextWrapping="Wrap" Text="C:\\path..." IsReadOnly="True" IsEnabled="False"/>
-        <StackPanel HorizontalAlignment="Right" Grid.Column="1" Grid.Row="0" Margin="300, 20, 5, 35" Orientation="Horizontal">
-            <RadioButton Content="File" x:Name="FileButton" IsChecked="True"/>
-            <RadioButton Margin="5, 0, 0, 0" Content="Folder" x:Name="FolderButton"/>
-        </StackPanel>
+        <TextBox Grid.Column="1" Grid.Row="0" Margin="14,20,5,35" x:Name="txtGetFile" TextWrapping="Wrap" Text="C:\\path..." IsReadOnly="True" IsEnabled="False"/>
+
         <Canvas Grid.Column="2" Grid.Row="0">
-            <Button  Cursor="Hand" Height="30" Canvas.Top="18" Canvas.Left="5" Click="ClickBrowseButton" >
+            <Button  Cursor="Hand" Height="30" Canvas.Top="18" Canvas.Left="5" Click="ClickBrowseFiles" >
                 <Button.Template>
                     <ControlTemplate>
-                        <Image Source="icons/open.png"  RenderOptions.BitmapScalingMode="HighQuality" />
+                        <Image Source="icons/addFile.png"  RenderOptions.BitmapScalingMode="HighQuality" />
                     </ControlTemplate>
                 </Button.Template>
             </Button>
-            <Button   Cursor="Hand" Height="30" Canvas.Top="18" Canvas.Left="40"  Click="ClickRefreshButton">
+            <Button  Cursor="Hand" Height="30" Canvas.Top="18" Canvas.Left="40" Click="ClickBrowseFolders" >
+                <Button.Template>
+                    <ControlTemplate>
+                        <Image Source="icons/addFolder.png"  RenderOptions.BitmapScalingMode="HighQuality" />
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <Button   Cursor="Hand" Height="30" Canvas.Top="18" Canvas.Left="75"  Click="ClickRefreshButton">
                 <Button.Template>
                     <ControlTemplate>
                         <Image Source="icons/refresh2.png"  RenderOptions.BitmapScalingMode="HighQuality" />
