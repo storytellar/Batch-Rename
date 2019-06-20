@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DoAn1_LapTrinhWindows"
         mc:Ignorable="d"
-        Title="NameChanger" Height="500" Width="810" Loaded="Window_Loaded">
+        Title="NameChanger" Height="500" Width="810" Loaded="Window_Loaded" Icon="icons/namechanger.png">
     <Window.Resources>
         <Style x:Key="MyWaterMarkStyle" TargetType="{x:Type TextBox}">
             <Setter Property="Template">
@@ -149,9 +149,9 @@
                         </StackPanel>
                     </Expander.Header>
                     <StackPanel Height="50"  Margin="20 5 0 0">
-                        <RadioButton IsChecked="True" Name="radioUpperAll" GroupName="NewCaseRadio" Content="Tat ca viet hoa"/>
-                        <RadioButton Name="radioLowerAll" GroupName="NewCaseRadio" Content="Tat ca viet thuong"/>
-                        <RadioButton Name="radioUpperFirstOne" GroupName="NewCaseRadio" Content="Chu dau viet hoa, con lai thuong"/>
+                        <RadioButton IsChecked="True" Name="radioUpperAll" GroupName="NewCaseRadio" Content="All is uppercase"/>
+                        <RadioButton Name="radioLowerAll" GroupName="NewCaseRadio" Content="All is lowercase"/>
+                        <RadioButton Name="radioUpperFirstOne" GroupName="NewCaseRadio" Content="Capitalize the first letter"/>
                     </StackPanel>
                 </Expander>
                 <Expander>
@@ -161,7 +161,7 @@
                         </StackPanel>
                     </Expander.Header>
                     <StackPanel  Margin="20 5 0 0">
-                        <TextBlock Text="Họ tên được định nghĩa các yêu cầu như sau: Bắt đầu và kết thúc không có khoảng trắng, mỗi từ bắt đầu bằng kí tự viết hoa, các kí tự còn lại viết thường, không có quá 1 khoảng trắng giữa các từ." 
+                        <TextBlock Text="The name is defined as the following requirements: Start and end with no spaces, each word starts with capital letters, the remaining characters are written lower, there is no more than one space between words." 
                              TextWrapping="WrapWithOverflow">
                         </TextBlock>
                     </StackPanel>
@@ -173,8 +173,8 @@
                         </StackPanel>
                     </Expander.Header>
                     <StackPanel Height="35" Margin="20 5 0 0">
-                        <RadioButton IsChecked="True" Name="IDFirstRadio"  GroupName="MoveRadio" Content="Ma truoc, ten sau" />
-                        <RadioButton Name="NameFirstRadio" GroupName="MoveRadio" Content="Ten truoc, ma sau"/>
+                        <RadioButton IsChecked="True" Name="IDFirstRadio"  GroupName="MoveRadio" Content="Put the ID first" />
+                        <RadioButton Name="NameFirstRadio" GroupName="MoveRadio" Content="Put the Name first"/>
                     </StackPanel>
                 </Expander>
                 <Expander>
@@ -184,7 +184,7 @@
                         </StackPanel>
                     </Expander.Header>
                     <StackPanel Margin="20 5 0 0">
-                        <TextBlock Text="Muốn đổi tên nhanh chóng một số ảnh trả về và nhét vào CDSL mà không bị trùng, hãy biến tên của mỗi tập tin tải về thành GUID để nó có tên là duy nhất." 
+                        <TextBlock Text="To quickly rename some returned images and insert them into the Database without duplication, turn the name of each file downloaded into a GUID so that it has a unique name." 
                                TextWrapping="WrapWithOverflow">
                         </TextBlock>
                     </StackPanel>

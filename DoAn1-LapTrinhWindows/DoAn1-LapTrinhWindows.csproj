@@ -129,5 +129,8 @@
     <Resource Include="icons\addFile.png" />
     <Resource Include="icons\addFolder.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icons\namechanger.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
