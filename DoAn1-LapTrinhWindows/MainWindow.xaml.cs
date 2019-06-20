@@ -431,6 +431,8 @@ namespace DoAn1_LapTrinhWindows
 
                 target.Status = "Changed";
             }
+
+            actions.Clear();
         }
 
         private void ClickSavePresetButton(object sender, RoutedEventArgs e)
