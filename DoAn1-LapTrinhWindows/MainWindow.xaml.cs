@@ -365,15 +365,15 @@ namespace DoAn1_LapTrinhWindows
 
             foreach (var target in targets)
             {
-                if(target.Status != "Unchanged")
+                if (target.Status != "Unchanged")
                 {
                     if(target.Status == "Changed")
                     {
                         target.Name = target.NewName;
-                        target.NewName = "No name";
                     }
                     target.Status = "Unchanged";
                 }
+                target.NewName = "No name";
                 lv.Items.Add(target);
             }
         }
