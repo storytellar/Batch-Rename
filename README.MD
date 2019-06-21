@@ -3,7 +3,7 @@
 A tool on Windows 7-10 that can rename multiple files/folders with One click.
 
 
-![alt text](https://i.imgur.com/QFB2CIk.png "Logo Title Text 1")
+![alt text](https://i.imgur.com/QFB2CIk.png "User Interface")
 
 
 ## Installation
