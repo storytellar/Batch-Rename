@@ -161,7 +161,7 @@
                         </StackPanel>
                     </Expander.Header>
                     <StackPanel  Margin="20 5 0 0">
-                        <TextBlock Text="The name is defined as the following requirements: Start and end with no spaces, each word starts with capital letters, the remaining characters are written lower, there is no more than one space between words." 
+                        <TextBlock Text="The name is defined as the following requirements: Start and end with no spaces, each word starts with a capital letter, the remaining characters are written lower, there is no more than one space between words." 
                              TextWrapping="WrapWithOverflow">
                         </TextBlock>
                     </StackPanel>

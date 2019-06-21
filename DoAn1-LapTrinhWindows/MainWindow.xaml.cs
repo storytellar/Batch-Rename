@@ -154,8 +154,17 @@ namespace DoAn1_LapTrinhWindows
                 var args = Args as ReplaceArgs;
                 var needle = args.Needle;
                 var hammer = args.Hammer;
+                string res = "/";
 
-                var res = origin.Replace(needle, hammer);
+                Regex myRex = new Regex(@"\/|\\|\:|\*|\?|\<|\>|\|");
+
+                if (!origin.Contains(needle))
+                    res = origin;
+                else
+                {
+                    if (!myRex.IsMatch(hammer))
+                        res = origin.Replace(needle, hammer);
+                }
 
                 return res;
             }
@@ -356,11 +365,14 @@ namespace DoAn1_LapTrinhWindows
 
             foreach (var target in targets)
             {
-                if(target.Status == "Changed")
+                if(target.Status != "Unchanged")
                 {
-                    target.Name = target.NewName;
-                    target.NewName = "No Name";
                     target.Status = "Unchanged";
+                    if(target.Status == "Changed")
+                    {
+                        target.Name = target.NewName;
+                        target.NewName = "No Name";
+                    }
                 }
                 lv.Items.Add(target);
             }
@@ -410,49 +422,62 @@ namespace DoAn1_LapTrinhWindows
                 foreach (var action in actions)
                 {
                     res = action.Process(res);
-                    int tail = 1;
-
-                    if (target.Extension != "")
+                    
+                    if(res != target.Name)
                     {
-                        string[] infos = Directory.GetFiles(target.Dir);
+                        int tail = 1;
 
-                        foreach(var info in infos)
+                        if(res == "/")
                         {
-                            if(target.Dir + res + ext == info)
-                            {
-                                foreach (var smallInfo in infos)
-                                    if (target.Dir + res + tail.ToString() + ext == smallInfo)
-                                        tail++;
-                                res += tail.ToString();
-                            }
-                        }
-                        
-                        File.Move(target.Dir + temp + ext, target.Dir + res + ext);
-                    }
-
-                    else
-                    {
-                        string[] infos = Directory.GetDirectories(target.Dir);
-
-                        foreach (var info in infos)
-                        {
-                            if (target.Dir + res + ext == info)
-                            {
-                                foreach (var smallInfo in infos)
-                                    if (target.Dir + res + tail.ToString() + ext == smallInfo)
-                                        tail++;
-                                res += tail.ToString();
-                            }
+                            target.Status = "Error!";
                         }
 
-                        Directory.Move(target.Dir + temp, target.Dir + temp + "_temp");
-                        Directory.Move(target.Dir + temp + "_temp", target.Dir + res);
+                        else if (target.Extension != "")
+                        {
+                            string[] infos = Directory.GetFiles(target.Dir);
+
+                            foreach (var info in infos)
+                            {
+                                if (target.Dir + res + ext == info)
+                                {
+                                    foreach (var smallInfo in infos)
+                                        if (target.Dir + res + tail.ToString() + ext == smallInfo)
+                                            tail++;
+                                    res += tail.ToString();
+                                }
+                            }
+
+                            File.Move(target.Dir + temp + ext, target.Dir + res + ext);
+                            target.NewName = res;
+                            target.Status = "Changed";
+                        }
+
+                        else
+                        {
+                            string[] infos = Directory.GetDirectories(target.Dir);
+
+                            foreach (var info in infos)
+                            {
+                                if (target.Dir + res + ext == info)
+                                {
+                                    foreach (var smallInfo in infos)
+                                        if (target.Dir + res + tail.ToString() + ext == smallInfo)
+                                            tail++;
+                                    res += tail.ToString();
+                                }
+                            }
+
+                            Directory.Move(target.Dir + temp, target.Dir + temp + "_temp");
+                            Directory.Move(target.Dir + temp + "_temp", target.Dir + res);
+                            target.NewName = res;
+                            target.Status = "Changed";
+                        }
                     }
-                    target.NewName = res;
+                    
                     temp = res;
                 }
 
-                target.Status = "Changed";
+                
             }
 
             actions.Clear();
