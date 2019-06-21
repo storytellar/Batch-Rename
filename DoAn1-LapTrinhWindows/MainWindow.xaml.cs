@@ -367,12 +367,12 @@ namespace DoAn1_LapTrinhWindows
             {
                 if(target.Status != "Unchanged")
                 {
-                    target.Status = "Unchanged";
                     if(target.Status == "Changed")
                     {
                         target.Name = target.NewName;
-                        target.NewName = "No Name";
+                        target.NewName = "No name";
                     }
+                    target.Status = "Unchanged";
                 }
                 lv.Items.Add(target);
             }
@@ -476,8 +476,6 @@ namespace DoAn1_LapTrinhWindows
                     
                     temp = res;
                 }
-
-                
             }
 
             actions.Clear();
@@ -669,9 +667,53 @@ namespace DoAn1_LapTrinhWindows
 
         private void PreviewButton_Click(object sender, RoutedEventArgs e)
         {
+            if (ReplaceBox.IsChecked == true)
+                actions.Add(new Replacer() { Args = new ReplaceArgs() { Needle = TextNeedle.Text, Hammer = TextHammer.Text } });
 
+            if (NewCaseBox.IsChecked == true)
+            {
+                if (radioUpperAll.IsChecked == true)
+                    actions.Add(new ToUpperCase());
+
+                else if (radioLowerAll.IsChecked == true)
+                    actions.Add(new ToLowerCase());
+
+                else if (radioUpperFirstOne.IsChecked == true)
+                    actions.Add(new SpecialCase());
+            }
+
+            if (FullNameNormalizeBox.IsChecked == true)
+            {
+                actions.Add(new FullNameNormalizer());
+            }
+
+            if (UniqueNameBox.IsChecked == true)
+            {
+                actions.Add(new UniqueName());
+            }
+
+            if (MoveBox.IsChecked == true)
+            {
+                if (IDFirstRadio.IsChecked == true)
+                    actions.Add(new IDFirst());
+                else if (NameFirstRadio.IsChecked == true)
+                    actions.Add(new NameFirst());
+            }
+
+            foreach (var target in targets)
+            {
+                foreach(var action in actions)
+                {
+                    target.NewName = action.Process(target.Name);
+
+                    if (target.NewName == target.Name)
+                        target.NewName = "No name";
+                    else if (target.NewName == "/")
+                        target.NewName = "";
+                }
+            }
+
+            actions.Clear();
         }
-
-       
     }
 }
