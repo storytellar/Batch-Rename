@@ -2,6 +2,10 @@
 
 A tool on Windows 7-10 that can rename multiple files/folders with One click.
 
+
+![alt text](https://i.imgur.com/QFB2CIk.png "Logo Title Text 1")
+
+
 ## Installation
 
 Build it with [Microsoft Visual Studio](https://visualstudio.microsoft.com) on Windows 7-10.
