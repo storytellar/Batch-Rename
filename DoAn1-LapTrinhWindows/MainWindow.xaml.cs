@@ -536,9 +536,9 @@ namespace DoAn1_LapTrinhWindows
                                 File.Move(target.Dir + temp, target.Dir + res);
                                 target.Status = "Changed";
                             }
-                            catch(Exception exc)
+                            catch(SystemException exc)
                             {
-                                MessageBox.Show("Error: " + exc.Message, "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
+                                target.Status = "Error: " + exc.Message;
                                 res = target.Name;
                             }
                         }
@@ -567,15 +567,15 @@ namespace DoAn1_LapTrinhWindows
                                 Directory.Move(target.Dir + temp + "_temp", target.Dir + res);
                                 target.Status = "Changed";
                             }
-                            catch(Exception exc)
+                            catch(SystemException exc)
                             {
-                                MessageBox.Show("Error: " + exc.Message, "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
+                                target.Status = "Error: " + exc.Message;
                                 res = target.Name;
                             }
                         }
                     }
 
-                    if (res == target.Name)
+                    else
                         target.Status = "Unchanged";
 
                     target.NewName = "";
