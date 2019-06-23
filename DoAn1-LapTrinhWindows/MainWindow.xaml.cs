@@ -531,8 +531,16 @@ namespace DoAn1_LapTrinhWindows
                                 }
                             }
 
-                            File.Move(target.Dir + temp, target.Dir + res);
-                            target.Status = "Changed";
+                            try
+                            {
+                                File.Move(target.Dir + temp, target.Dir + res);
+                                target.Status = "Changed";
+                            }
+                            catch(Exception exc)
+                            {
+                                MessageBox.Show("Error: " + exc.Message, "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
+                                res = target.Name;
+                            }
                         }
 
                         else
@@ -553,9 +561,17 @@ namespace DoAn1_LapTrinhWindows
                                 }
                             }
 
-                            Directory.Move(target.Dir + temp, target.Dir + temp + "_temp");
-                            Directory.Move(target.Dir + temp + "_temp", target.Dir + res);
-                            target.Status = "Changed";
+                            try
+                            {
+                                Directory.Move(target.Dir + temp, target.Dir + temp + "_temp");
+                                Directory.Move(target.Dir + temp + "_temp", target.Dir + res);
+                                target.Status = "Changed";
+                            }
+                            catch(Exception exc)
+                            {
+                                MessageBox.Show("Error: " + exc.Message, "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
+                                res = target.Name;
+                            }
                         }
                     }
 
@@ -796,7 +812,6 @@ namespace DoAn1_LapTrinhWindows
                 foreach(var action in actions)
                 {
                     target.NewName = action.Process(temp);
-
                     
                     if (target.NewName != target.Name)
                     {
@@ -811,10 +826,10 @@ namespace DoAn1_LapTrinhWindows
                         else if (target.NewName == "|")
                         {
                             target.NewName = temp;
-                            if (temp == target.Name)
+                            /*if (temp == target.Name)
                                 target.Status = "Unchanged";
                             else
-                                target.Status = "Changed";
+                                target.Status = "Changed";*/
                         }
 
                         else if (target.Extension != "")
@@ -840,7 +855,7 @@ namespace DoAn1_LapTrinhWindows
                                 }
                             }
 
-                            target.Status = "Changed";
+                            //target.Status = "Changed";
                         }
 
                         else
@@ -861,12 +876,12 @@ namespace DoAn1_LapTrinhWindows
                                 }
                             }
 
-                            target.Status = "Changed";
+                            //target.Status = "Changed";
                         }
                     }
 
-                    if (target.NewName == target.Name)
-                        target.Status = "Unchanged";
+                    /*if (target.NewName == target.Name)
+                        target.Status = "Unchanged";*/
 
                     temp = target.NewName;
                 }
@@ -874,7 +889,6 @@ namespace DoAn1_LapTrinhWindows
 
             actions.Clear();
         }
-
         private void ContextMenuClearClicked(object sender, RoutedEventArgs e)
         {
             lv.Items.Clear();
