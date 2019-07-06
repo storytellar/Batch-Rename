@@ -217,29 +217,39 @@ namespace DoAn1_LapTrinhWindows
             {
                 string result = "";
                 string str = Path.GetFileNameWithoutExtension(origin);
-                for (int i = 0; i < str.Length; i++)
-                {
-                    // Remove starting with trash character
-                    while (!Char.IsLetter(str[0]))
-                        str = str.Remove(0, 1);
+                
+                // Remove starting with trash character
+                while (!Char.IsLetter(str[0]) && !Char.IsLetter(str[0]))
+                    str = str.Remove(0, 1);
 
-                    // Remove ending with trash character
-                    while (!Char.IsLetter(str[str.Length - 1]))
-                        str = str.Remove(str.Length - 1);
+                // Remove ending with trash character
+                while (!Char.IsLetter(str[str.Length - 1]) && !Char.IsNumber(str[str.Length - 1]))//&& !Char.IsNumber(str[str.Length - 1]))
+                    str = str.Remove(str.Length - 1);
+
+                for (int i = 0; i < str.Length ; i++)
+                {
 
                     // UpperCase and LowerCase
-                    if (!Char.IsLetter(str[i]) && Char.IsLetter(str[i + 1]))
+                    if (!Char.IsLetter(str[i]) && !Char.IsNumber(str[i]) && Char.IsLetter(str[i + 1]) )
                     {
                         result = result + " " + Char.ToUpper(str[i + 1]); i++; continue;
+                    }
+                    else if (!Char.IsLetter(str[i]) && !Char.IsNumber(str[i]) && Char.IsNumber(str[i + 1]))
+                    {
+                        result = result + " " + str[i + 1]; i++; continue;
                     }
                     else if (i == 0)
                     {
                         result = result + Char.ToUpper(str[i]);
                     }
                     else if (Char.IsLetter(str[i]))
-                           result = result + Char.ToLower(str[i]);
+                        result = result + Char.ToLower(str[i]);
+                    else if (Char.IsNumber(str[i]))
+                        result = result + str[i];
+
                 }
                 result += Path.GetExtension(origin);
+                
                 return result;
             }
         }
